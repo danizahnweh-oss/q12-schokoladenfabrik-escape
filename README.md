@@ -11,7 +11,7 @@ Vier Doppelstunden. Teamarbeit beim Erschließen und Rätseln, individuelle Erge
 `npm start`, anschließend http://localhost:4173 öffnen. Die Website funktioniert auch mit jedem statischen Webserver. GitHub Pages veröffentlicht den Ordner `dist`.
 
 ## Inhalt
-Die Lerntexte sind eigenständige didaktische Bearbeitungen der Themen der bereitgestellten Unterrichtsmaterialien. Historische Fallbeispiele sind als solche bezeichnet. Originale Schulunterlagen und Lösungspdfs werden nicht mitveröffentlicht. Der Rechtsfall spielt ausdrücklich im Jahr 2024 auf Basis der bezeichneten Gesetzesfassung. Quellenlinks stehen in den Räumen.
+Die Lerntexte sind eigenständige didaktische Bearbeitungen der Themen der bereitgestellten Unterrichtsmaterialien. Historische Fallbeispiele sind als solche bezeichnet. Originale Schulunterlagen und Lösungspdfs werden nicht mitveröffentlicht. Der Rechtsfall spielt ausdrücklich im Jahr 2024 auf Basis der bezeichneten Gesetzesfassung. Alle für die Aufgaben benötigten Fallinformationen, Fachbegriffe, Rechenregeln und die didaktisch zusammengefassten Rechtsregeln stehen in den Akten. Nucao, Bareiss und die Möbelmacher werden eigenständig erläutert. Quellenlinks dienen nur der freiwilligen Vertiefung. Vorhandene Absatznummern bleiben erhalten; zusätzliche Grundlagenblätter folgen nach den bisherigen Anlagen.
 
 ## Lehrkraft
 Der Lehrkraftbereich bietet Erwartungshorizonte, Unterrichtsablauf, lokale Freigaben und Musterlösungen. Er ist eine offen zugängliche Unterrichtshilfe, kein geschütztes Administrationssystem. Rätsel und Codes werden im Browser geprüft und sind kein Prüfungs-Sicherheitssystem.

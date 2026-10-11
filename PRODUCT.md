@@ -7,7 +7,7 @@ product
 Q12 Wirtschaft und Recht. Kleine Teams arbeiten vier Doppelstunden an Tablets oder Laptops, jede Person sichert eigene Erkenntnisse. Lehrkräfte moderieren und beurteilen offene Antworten.
 
 ## Product Purpose
-Sechs Räume verbinden Wertschöpfung und Organisation, Beschaffung und Lieferkettenverantwortung. Texte werden eigenständig erschlossen; Fachrätsel öffnen Türen; ein exportierbares Ermittlungsheft sichert Ergebnisse.
+Sechs Räume verbinden Wertschöpfung und Organisation, Beschaffung und Lieferkettenverantwortung. Die Website ist das vollständige Lernmaterial; externe Texte, Schulbücher und Recherche werden nicht vorausgesetzt. Texte werden eigenständig erschlossen; Fachrätsel öffnen Türen; ein exportierbares Ermittlungsheft sichert Ergebnisse.
 
 ## Brand Personality
 Atmosphärisch, präzise, ermutigend. Eine glaubwürdige Fabrik statt eines kindlichen Quiz.
