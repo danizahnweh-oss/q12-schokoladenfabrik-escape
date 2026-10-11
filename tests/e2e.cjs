@@ -58,12 +58,23 @@ function pass(name) { passed++; console.log(`✓ ${name}`); }
  for (let i=0;i<6;i++) {
    await page.waitForURL(`**/#raum/${i+1}`);
    for(let j=0;j<3;j++)await page.locator(`#note-${j}`).fill(analysis);
-   if(i===0){await page.locator('#answer-0').selectOption('planung');await page.getByRole('button',{name:'Zuordnungen prüfen'}).click();assert.match(await page.locator('#puzzle-feedback').textContent(),/Aufgabe 1/);}
-   for(let j=0;j<4;j++) {
+   if(i===0){await page.locator('[data-action=report][data-value=planung]').click();await page.locator('[data-action=assign][data-slot=0]').click();await page.getByRole('button',{name:'Lösungen prüfen'}).click();assert.match(await page.locator('#puzzle-feedback').textContent(),/Aufgabe 1/);}
+   if(content[i].puzzleType==='matching'){
+     for(let j=0;j<4;j++){await page.locator(`[data-action=report][data-value="${content[i].exercises[j].answer}"]`).click();await page.locator(`[data-action=assign][data-slot="${j}"]`).click();}
+   }else if(content[i].puzzleType==='order'){
+     for(let j=0;j<4;j++){
+       let position=(await page.locator('.process-order li').evaluateAll(rows=>rows.map(row=>row.dataset.value))).indexOf(content[i].exercises[j].answer);
+       while(position>j){await page.locator(`[data-action=move-step][data-step="${position}"][data-delta="-1"]`).click();position--;}
+     }
+   }else for(let j=0;j<4;j++){
      const ex=content[i].exercises[j];
-     if(ex.type==='number')await page.locator(`#answer-${j}`).fill(ex.answer);else await page.locator(`#answer-${j}`).selectOption(ex.answer);
+     if(ex.type==='number'||ex.type==='cloze')await page.locator(`#answer-${j}`).fill(ex.answer);
+     else await page.locator(`input[name="answer-${j}"][value="${ex.answer}"]`).check();
    }
-   await page.getByRole('button',{name:'Zuordnungen prüfen'}).click();
+   await page.getByRole('button',{name:`Seite 7: ${content[i].sections[6].title}`,exact:true}).click();
+   assert.equal(await page.locator('.document-body > .paragraph:not([hidden]) .evidence-sheet').count(),1);
+   assert.equal(await page.locator('#puzzle-interaction select').count(),0);
+   await page.getByRole('button',{name:'Lösungen prüfen'}).click();
    assert.match(await page.locator('#puzzle-feedback').textContent(),/Alle vier/);
    if(i===0){await page.locator('#door-code').fill('0000');await page.locator('#code-form').getByRole('button',{name:'Tür öffnen'}).click();assert.match(await page.locator('#lock-feedback').textContent(),/passt noch nicht/);await page.screenshot({path:path.join(output,'room-desktop.png'),fullPage:true});}
    await page.locator('#door-code').fill(codes[i]);

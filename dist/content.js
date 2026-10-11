@@ -129,6 +129,21 @@ window.ROOMS = [
     transfer:'Übertragt euren Plan auf einen Fahrradhersteller: Welche Maßnahme lässt sich übernehmen, welche müsste wegen anderer Bedingungen verändert werden?'
   }
 ];
+// Zusätzliche Anlagen verwenden ausschließlich die fiktiven Daten des Fallmodells.
+const dossierAttachments = [
+  {title:'Anlage A1: Organigramm',text:'Die Geschäftsleitung koordiniert vier Funktionsbereiche. Untersucht, welche beiden Bereiche beim Start des Onlineshops besonders eng zusammenarbeiten müssen. Erklärt eine konkrete Informationsübergabe und ergänzt sie in eurem Heft.',exhibit:'organisation'},
+  {title:'Anlage B1: Ablauf- und Übergabeplan',text:'Die Pfeile zeigen die Reihenfolge des vereinfachten Herstellungsprozesses. Die kleinen Vermerke dokumentieren benötigte Informationen. Findet die Schnittstelle, an der fehlende Informationen den Versand verhindern können, und begründet eure Verbesserung.',exhibit:'process'},
+  {title:'Anlage C1: Kostenblatt der Einkaufsleitung',text:'Das Diagramm stellt die Gesamtkosten pro Jahr dar. Vergleicht die Steigungen und den Ausgangswert. Prüft die Kostengleichheit mithilfe der Tabelle. Nennt anschließend ein Entscheidungskriterium, das sich aus diesem Diagramm allein nicht beurteilen lässt.',exhibit:'costs'},
+  {title:'Anlage D1: Bestandsprotokoll',text:'Die Kurven zeigen den Bestand nach dem täglichen Verbrauch von 80 kg, ohne neue Lieferung. Im Ausgangsfall trifft die Ersatzlieferung erst zu Beginn von Tag 9 ein. Ermittelt die Ausfalltage und erläutert, was ein zusätzlicher Vorrat leisten kann.',exhibit:'stock'},
+  {title:'Anlage E1: Lieferanten- und Befundübersicht',text:'Die Übersicht gehört zum historischen Rechtsfall 2024. Unterscheidet Vertragsbeziehungen von den vorgelagerten Produktionsstufen. Vergleicht die beiden Befunde: Welche Reaktion lässt sich jeweils anhand der Akte begründen? Formuliert eine Maßnahme und einen Wirksamkeitsnachweis.',exhibit:'supply'},
+  {title:'Anlage F1: Auszug aus dem Sitzungsprotokoll',text:'Die Aussagen dokumentieren unterschiedliche Interessen und sind noch kein Beschluss. Ordnet sie fachlich ein. Formuliert eine gemeinsame Empfehlung, die zwei Perspektiven berücksichtigt, und benennt eine Bedingung, unter der ihr diese Empfehlung ändern würdet.',exhibit:'minutes'}
+];
+window.ROOMS.forEach((room,i)=>{
+  room.sections.push(dossierAttachments[i]);
+  room.puzzleType=['matching','order','cards','calculation','decisions','cloze'][i];
+});
+window.ROOMS[5].exercises.forEach(ex=>ex.type='cloze');
+
 window.GLOSSARY = {
   'Unternehmensstrategie':'Langfristiger Rahmen für Märkte, Leistungen, Ziele und Ressourceneinsatz eines Unternehmens.',
   'Funktionsbereich':'Bereich mit einer bestimmten Aufgabenart, etwa Beschaffung, Produktion oder Finanzierung.',
