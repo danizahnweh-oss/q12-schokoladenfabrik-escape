@@ -1,0 +1,9 @@
+# Grafik und Medien
+
+`dist/assets/factory.png` wurde mit dem eingebauten Bildgenerator erstellt. Das Bild enthält keine eingebrannten Beschriftungen. Die interaktiven Raumnamen liegen als zugängliche HTML-Schaltflächen darüber.
+
+## Verwendeter Prompt
+Use case: stylized-concept. Asset type: cinematic illustrated environment for a German high-school educational escape-game website, wide landscape image. Primary request: a premium visually captivating old chocolate factory as a detailed 3D isometric architectural cutaway, six connected rooms inside one red brick industrial building: strategy office with papers, chocolate production with copper vats and conveyor, purchasing office with crates and shipping documents, warehouse with cocoa sacks, inspection archive with folders, executive boardroom with a long table. The architecture should read as one cohesive factory, not six isolated cards. Style: finely crafted cinematic miniature, realistic materials, architectural game concept art, elegant and suitable for ages 17-19, not childish cartoon. Composition: building centered on the right two-thirds with enough negative dark space to its left for website type; wide 3:2 landscape; complete building and ground visible. Lighting: dusk, warm amber light spilling from windows, navy charcoal setting, copper equipment, subtle atmospheric depth, exceptional material detail. Avoid: any words, labels, text, letters, logos, watermark, people, horror, purple glows. The illustration itself is static; animations and all labels will be added by the website.
+
+## Weitere Grafiken
+Türrahmen und Türblätter sind interaktive CSS-Elemente. Ablaufgrafiken sind semantische HTML-Elemente mit ergänzenden Icons. Icons verwenden eine einheitliche einfache SVG-Strichgeometrie. Ein kurzer optionaler Türklang wird lokal mit Web Audio erzeugt; keine externe Audiodatei nötig.

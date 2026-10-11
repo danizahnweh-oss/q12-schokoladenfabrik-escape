@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#13171d">
+  <meta name="description" content="Sechs verschlossene Türen. Ein Unternehmen in der Krise. Erarbeite Wertschöpfung, Beschaffung und Lieferkettenverantwortung im Q12 Escape Game.">
+  <title>Die verschlossene Schokoladenfabrik · Q12</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preload" href="assets/factory.png" as="image">
+  <script src="content.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Zum Inhalt springen</a>
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Schokoladenfabrik: zum Fabrikplan"><span class="brand-seal" aria-hidden="true">H<span>&</span>S</span><span>Die Schokoladenfabrik<small>Wirtschaft und Recht · Q12</small></span></a>
+    <nav aria-label="Hauptnavigation">
+      <button data-action="home" class="nav-button" id="map-nav">Fabrikplan</button>
+      <button data-action="notebook" class="nav-button">Ermittlungsheft</button>
+      <button data-action="teacher" class="nav-button">Lehrkraft</button>
+      <button data-action="settings" class="icon-button" aria-label="Einstellungen" title="Einstellungen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="8" cy="7" r="3" fill="currentColor"/><circle cx="16" cy="17" r="3" fill="currentColor"/></svg></button>
+    </nav>
+  </header>
+  <main id="main" tabindex="-1"></main>
+  <footer class="site-footer"><span>Heller & Söhne · Ein fiktiver Unternehmensfall</span><button data-action="about">Über dieses Lernspiel</button><span id="save-status" role="status">Bereit</span></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="modal" aria-labelledby="modal-title"><div class="modal-header"><h2 id="modal-title"></h2><button class="icon-button" data-action="close-modal" aria-label="Fenster schließen">×</button></div><div id="modal-body"></div></dialog>
+  <div id="unlock-overlay" class="unlock-overlay" aria-hidden="true"><div class="unlock-door"><div class="unlock-leaf"><span class="door-window"></span><span class="door-handle"></span></div></div><p>Eine Tür öffnet sich.</p></div>
+  <noscript><p>Bitte aktiviere JavaScript, um die Türen, Rätsel und das Ermittlungsheft zu verwenden.</p></noscript>
+</body>
+</html>
