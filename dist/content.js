@@ -1,7 +1,7 @@
 /* Eigenständige didaktische Texte. Historische Beispiele und fiktive Daten sind markiert. */
 window.ROOMS = [
   {
-    id: 'strategie', name: 'Strategiebüro', subtitle: 'Eine Richtung für die Fabrik', icon: 'compass', code: '7382', time: '35–40 Minuten', topic: 'Strategie & Funktionsbereiche',
+    id: 'strategie', name: 'Strategiebüro', subtitle: 'Eine Richtung für die Fabrik', icon: 'compass', code: '7382', topic: 'Strategie & Funktionsbereiche',
     dispatch: 'Die Geschäftsleitung verspricht faire Pralinen, der Einkauf sucht den niedrigsten Preis und das Marketing kündigt eine Lieferung in 24 Stunden an. Drei gute Absichten, aber noch keine gemeinsame Strategie. Bringt die Abteilungen auf einen Kurs.',
     document: 'Akte A · Die neue Unternehmensstrategie',
     intro: 'Erklärt, wie aus einer Unternehmensstrategie konkrete Aufgaben und Zielkonflikte in den Funktionsbereichen entstehen.',
@@ -27,7 +27,7 @@ window.ROOMS = [
     transfer:'Ein Fahrradhersteller will von günstigen Standardrädern auf individuell konfigurierte Fahrräder wechseln. Welche zwei Funktionsbereiche müssen besonders eng zusammenarbeiten? Begründet.'
   },
   {
-    id:'produktion',name:'Produktionshalle',subtitle:'Vom Rohstoff zur Praline',icon:'factory',code:'6419',time:'35–40 Minuten',topic:'Organisation & Wertschöpfung',
+    id:'produktion',name:'Produktionshalle',subtitle:'Vom Rohstoff zur Praline',icon:'factory',code:'6419',topic:'Organisation & Wertschöpfung',
     dispatch:'Im Onlineshop gehen Bestellungen ein, während die Produktion Verpackungen bestellt und der Versand noch auf eine Qualitätsfreigabe wartet. Die Zuständigkeiten existieren, doch der Ablauf stockt. Rekonstruiert den Weg eines Auftrags.',
     document:'Akte B · Die unterbrochene Prozesskette',intro:'Unterscheidet Aufbau- und Ablauforganisation und analysiert, wie Schnittstellen die Wertschöpfung beeinflussen.',
     sections:[
@@ -47,7 +47,7 @@ window.ROOMS = [
     transfer:'Ein Unternehmen hat ein übersichtliches Organigramm, liefert aber regelmäßig zu spät. Erklärt, warum das kein Widerspruch ist.'
   },
   {
-    id:'einkauf',name:'Einkaufsabteilung',subtitle:'Selbst herstellen oder einkaufen?',icon:'package',code:'8254',time:'35–40 Minuten',topic:'Beschaffung & Fertigungstiefe',
+    id:'einkauf',name:'Einkaufsabteilung',subtitle:'Selbst herstellen oder einkaufen?',icon:'package',code:'8254',topic:'Beschaffung & Fertigungstiefe',
     dispatch:'Ein neuer Lieferant bietet fertige Pralinenhüllen günstig an. Die Produktionsleitung möchte sie selbst herstellen. Beide Seiten argumentieren mit Qualität und Kosten. Trennt überprüfbare Aussagen von vorschnellen Schlussfolgerungen.',
     document:'Akte C · Die Entscheidung über den Fremdbezug',intro:'Analysiert Eigenfertigung und Fremdbezug anhand von Kosten, Kompetenzen, Qualität und Abhängigkeit.',
     sections:[
@@ -71,7 +71,7 @@ window.ROOMS = [
     transfer:'Ein Betrieb kauft fast alle Teile ein, entwickelt aber selbst die entscheidende Software. Kann er trotzdem wichtige eigene Kompetenzen besitzen? Erläutert.'
   },
   {
-    id:'lager',name:'Lager',subtitle:'Lieferfähig bleiben',icon:'layers',code:'6927',time:'40–45 Minuten',topic:'JIT, JIS & JIC',
+    id:'lager',name:'Lager',subtitle:'Lieferfähig bleiben',icon:'layers',code:'6927',topic:'JIT, JIS & JIC',
     dispatch:'Eine Kakaolieferung verspätet sich. Der Lagerleiter möchte Vorräte erhöhen, die Finanzierung warnt vor gebundenem Kapital. Prüft, wie lange die Fabrik produzieren kann und welche Beschaffung zu welchem Risiko passt.',
     document:'Akte D · Der verspätete Kakao',intro:'Vergleicht Beschaffungsmodelle und beurteilt den Zielkonflikt zwischen geringen Beständen und Versorgungssicherheit.',
     sections:[
@@ -90,7 +90,7 @@ window.ROOMS = [
     transfer:'Ein Händler verkauft verderbliche Erdbeeren und haltbare Schrauben. Warum ist dieselbe Lagerstrategie für beide Waren möglicherweise ungeeignet?'
   },
   {
-    id:'archiv',name:'Prüfarchiv',subtitle:'Verantwortung entlang der Kette',icon:'shield',code:'4196',time:'40–45 Minuten',topic:'Lieferkette & Sorgfaltspflichten',
+    id:'archiv',name:'Prüfarchiv',subtitle:'Verantwortung entlang der Kette',icon:'shield',code:'4196',topic:'Lieferkette & Sorgfaltspflichten',
     dispatch:'Ein Prüfbericht meldet versperrte Fluchtwege bei einem direkten Zulieferer. Außerdem gibt es einen konkreten Hinweis auf gefährliche Kinderarbeit weiter hinten in der Kette. Die Geschäftsleitung muss handeln. Prüft, welche Schritte zu welchem Befund passen.',
     document:'Akte E · Der Zuliefererbericht',intro:'Arbeitet mit einem historischen Rechtsfall. Unterscheidet Risiko, festgestellte Verletzung und abgestufte Maßnahmen.',
     legalNote:'Datierter Unterrichtsfall: Jahr 2024. Verwendet werden die ausgewiesenen Vorschriften der damaligen LkSG-Fassung. Der Fall behauptet keine vollständige aktuelle Rechtslage im Jahr 2026.',
@@ -110,7 +110,7 @@ window.ROOMS = [
     transfer:'Ein kleines Unternehmen fällt im Fall nicht selbst unter das Gesetz. Weshalb können faire Arbeitsbedingungen trotzdem für seine Beschaffungsentscheidung bedeutsam sein?'
   },
   {
-    id:'leitung',name:'Geschäftsleitung',subtitle:'Euer Plan für den Neustart',icon:'scale',code:'3825',time:'45–50 Minuten',topic:'Urteilen & Zielbeziehungen',
+    id:'leitung',name:'Geschäftsleitung',subtitle:'Euer Plan für den Neustart',icon:'scale',code:'3825',topic:'Urteilen & Zielbeziehungen',
     dispatch:'Die Türen sind fast alle offen. Jetzt reicht eine Kennziffer allein nicht mehr: Die Geschäftsleitung braucht einen nachvollziehbaren Plan. Verbindet eure bisherigen Erkenntnisse und wägt unterschiedliche Interessen ab.',
     document:'Akte F · Die Entscheidungsvorlage',intro:'Prüft Argumente und formuliert ein kriteriengeleitetes Gesamturteil zur Unternehmensstrategie.',
     sections:[
