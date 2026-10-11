@@ -1,6 +1,6 @@
 # Die verschlossene Schokoladenfabrik
 
-Vollständige statische Lernwebsite für Q12 Wirtschaft und Recht: sechs Räume, eigene anspruchsvolle Lerntexte, Fachrätsel und Codes, Hilfen, Ermittlungsheft und Unterrichtswerkzeuge.
+Vollständige statische Lernwebsite für Q12 Wirtschaft und Recht: sechs Räume, eigene anspruchsvolle Lerntexte, Fachrätsel und Codes, Hilfen, Ermittlungsheft und Unterrichtswerkzeuge. Die Akten sind als blätterbare Hefter gestaltet: ein Absatz pro Seite, Seitenauswahl, Vor-/Zurück-Schaltflächen und Pfeiltasten innerhalb der Akte. Die aktuelle Seite und Markierungen bleiben gespeichert.
 
 ## Unterricht
 Vier Doppelstunden. Teamarbeit beim Erschließen und Rätseln, individuelle Ergebnissicherung im eigenen Browser. Kein Konto erforderlich. Einträge werden ausschließlich auf dem verwendeten Gerät und Browser gespeichert. Keine gemeinsame Cloud-Synchronisation. Backups erlauben einen Gerätewechsel.

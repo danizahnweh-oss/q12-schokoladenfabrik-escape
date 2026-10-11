@@ -4,7 +4,7 @@
   const key = 'schokoladenfabrik-q12-v1';
   const main = document.querySelector('#main'), modal = document.querySelector('#modal');
   let current = { view: 'home', room: 0 }, saveTimer, toastTimer, storageAvailable = true, initialWarning = '';
-  const blank = () => ({ version: 1, name: '', team: '', settings: { motion: true, sound: false, dark: false, large: false }, rooms: rooms.map(() => ({ notes: ['', '', ''], answers: ['', '', '', ''], completed: false, released: false, hints: 0, marked: [] })), updated: null });
+  const blank = () => ({ version: 1, name: '', team: '', settings: { motion: true, sound: false, dark: false, large: false }, rooms: rooms.map(() => ({ notes: ['', '', ''], answers: ['', '', '', ''], completed: false, released: false, hints: 0, marked: [], page: 0 })), updated: null });
   const E = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const icons = {
     lock: '<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>',
@@ -37,7 +37,7 @@
     value.rooms.forEach((r, i) => {
       if (!r || !Array.isArray(r.notes) || r.notes.length !== 3 || r.notes.some(x => typeof x !== 'string' || x.length > 30000) || !Array.isArray(r.answers) || r.answers.length !== 4 || r.answers.some(x => typeof x !== 'string' || x.length > 100) || typeof r.completed !== 'boolean' || typeof r.released !== 'boolean' || !Number.isInteger(r.hints) || r.hints < 0 || r.hints > 3 || !Array.isArray(r.marked) || r.marked.some(x => !Number.isInteger(x) || x < 0 || x >= rooms[i].sections.length)) throw new Error(`Die Daten in Raum ${i + 1} sind ungültig.`);
       r.answers.forEach((answer, j) => { const ex = rooms[i].exercises[j]; if (answer && ex.type !== 'number' && !ex.options.some(o => o[0] === answer)) throw new Error('Das Backup enthält unbekannte Rätselantworten.'); });
-      result.rooms[i] = { notes: [...r.notes], answers: [...r.answers], completed: r.completed, released: r.released, hints: r.hints, marked: [...new Set(r.marked)] };
+      result.rooms[i] = { notes: [...r.notes], answers: [...r.answers], completed: r.completed, released: r.released, hints: r.hints, marked: [...new Set(r.marked)], page: Number.isInteger(r.page) && r.page >= 0 && r.page < rooms[i].sections.length ? r.page : 0 };
     });
     result.updated = typeof value.updated === 'string' ? value.updated : null;
     return result;
@@ -109,6 +109,34 @@
   function renderRoom(i) {
     const r = rooms[i], s = state.rooms[i];
     main.innerHTML = `<div class="page"><div class="breadcrumb"><button data-action="home">← Fabrikplan</button><span>/</span><span>Raum ${i+1} von 6</span></div><div class="room-heading"><span class="room-number" aria-hidden="true">0${i+1}</span><div><h1>${E(r.name)}</h1><p>${E(r.subtitle)} · ${E(r.time)}</p></div></div><nav class="room-tabs" aria-label="Räume">${rooms.map((room,j)=>`<button data-action="room" data-room="${j}" class="${i===j?'current':''}" ${i===j?'aria-current="page"':''} aria-disabled="${!available(j)}">${j+1}. ${E(room.name)}${!available(j)?' 🔒':''}</button>`).join('')}</nav><div class="briefing">${icon(r.icon)}<p><strong>Nachricht aus der Fabrik</strong>${E(r.dispatch)}</p></div>${s.completed?`<div class="complete-banner"><strong>Tür geöffnet. Eure Arbeit bleibt bearbeitbar.</strong>${i<5?'Der nächste Raum ist jetzt zugänglich.':'Alle Türen sind offen. Sichert euer Ermittlungsheft.'} <button class="text-button" data-action="${i<5?'room':'notebook'}" ${i<5?`data-room="${i+1}"`:''}>${i<5?'Zum nächsten Raum →':'Zum Ermittlungsheft →'}</button></div>`:''}<div class="workspace"><article class="document" aria-labelledby="document-title"><div class="document-header"><span class="document-label">${E(r.document)} · ${r.sections.reduce((n,s)=>n+s.text.split(/\s+/).length,0)} Wörter</span><h2 id="document-title">${E(r.subtitle)}</h2><p>${E(r.intro)}</p>${r.legalNote?`<div class="legal-note">${E(r.legalNote)}</div>`:''}<div class="reading-tools"><button data-action="glossary">Fachbegriffe nachschlagen</button><button data-action="large" aria-pressed="${state.settings.large}">${state.settings.large?'Text kleiner':'Text größer'}</button><span>Absätze als Belege markieren</span></div></div><div class="document-body">${r.sections.map((sec,j)=>`<section class="paragraph ${s.marked.includes(j)?'marked':''}" id="absatz-${j+1}"><h3><span>${j+1}</span>${E(sec.title)}</h3><p>${E(sec.text)}</p><button class="mark-button" data-action="mark" data-paragraph="${j}" aria-pressed="${s.marked.includes(j)}" aria-label="Absatz ${j+1} ${s.marked.includes(j)?'Markierung entfernen':'markieren'}">${s.marked.includes(j)?'✓ Absatz markiert':'Absatz markieren'}</button></section>`).join('')}</div><footer class="document-source"><p>Quellen und Einordnung</p>${r.sources.map(source=>`<p>${source.url?`<a href="${E(source.url)}" target="_blank" rel="noopener noreferrer">${E(source.label)} ↗</a>`:E(source.label)}</p>`).join('')}<p>Eigenständiger Lerntext. Heller & Söhne und sämtliche Unternehmensdaten sind fiktiv.</p></footer></article><aside class="workbench" aria-label="Arbeitsbereich"><section class="work-panel"><div class="panel-top">${icon('book')}<h2>Ermittlungsheft</h2><span class="small-badge">Akte ${String.fromCharCode(65+i)}</span></div><p>Haltet eure Ergebnisse in eigenen Worten fest. Die Mindestlänge prüft den Arbeitsstand, nicht die fachliche Qualität.</p>${r.fields.map((_,j)=>fieldHTML(r,i,j)).join('')}<button class="text-button" data-action="notebook">Alle bisherigen Einträge ansehen →</button></section><section class="work-panel"><div class="panel-top">${icon('compass')}<h2>Das Fachrätsel</h2></div><p>${E(r.puzzle)}</p>${r.exercises.map((_,j)=>exerciseHTML(r,i,j)).join('')}<button class="button secondary" data-action="check">Zuordnungen prüfen${icon('check')}</button><div id="puzzle-feedback" class="check-feedback" role="status" aria-live="polite"></div><div class="hint-box"><div class="hint-top"><button data-action="hint">${icon('bulb')} ${s.hints<3?'Nächsten Hinweis öffnen':'Alle Hinweise geöffnet'}</button><small id="hint-count">${s.hints} / 3 Hilfen</small></div><div id="hints">${r.hints.slice(0,s.hints).map((h,j)=>`<p class="hint-text"><strong>Hinweis ${j+1}</strong><br>${E(h)}</p>`).join('')}</div></div></section><section class="lock-panel"><h2>${icon(s.completed?'unlock':'lock')}${i===5?'Das letzte Schloss':'Das Türschloss'}</h2><p>Alle vier Rätselantworten müssen stimmen und die drei Einträge vorhanden sein. Gebt dann die Kennziffern als vierstelligen Code ein.</p><form class="code-form" id="code-form"><div class="field"><label for="door-code">Vierstelliger Türcode</label><input id="door-code" name="code" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" required aria-describedby="lock-feedback" placeholder="· · · ·"></div><button class="button" type="submit">Tür öffnen${icon('unlock')}</button></form><div id="lock-feedback" class="check-feedback" role="status" aria-live="polite"></div></section>${graphic(i)}</aside></div></div>`;
+    installBinder(i);
+  }
+  function installBinder(i) {
+    const r=rooms[i],article=document.querySelector('.document'),body=document.querySelector('.document-body');
+    article.classList.add('binder');
+    body.id='binder-pages';
+    body.insertAdjacentHTML('beforebegin', `<div class="binder-toolbar"><span>Eine Seite pro Absatz</span><nav class="binder-pages-nav" aria-label="Seiten dieser Akte">${r.sections.map((sec,j)=>`<button data-action="page" data-page="${j}" aria-label="Seite ${j+1}: ${E(sec.title)}" aria-controls="binder-pages">${j+1}</button>`).join('')}</nav></div>`);
+    body.insertAdjacentHTML('afterbegin','<span class="binder-rings" aria-hidden="true"><i></i><i></i><i></i></span>');
+    body.insertAdjacentHTML('afterend','<nav class="binder-pagination" aria-label="In der Akte blättern"><button id="binder-prev" data-action="prev-page" aria-label="Vorherige Seite">← <span>Zurück</span></button><span id="binder-counter" role="status" aria-live="polite"></span><button id="binder-next" data-action="next-page" aria-label="Nächste Seite"><span>Weiter</span> →</button></nav>');
+    updateBinder(i,false);
+  }
+  function updateBinder(i,animate=true,direction=1) {
+    const active=state.rooms[i].page,body=document.querySelector('.document-body');
+    body.querySelectorAll('.paragraph').forEach((p,j)=>{p.hidden=j!==active;});
+    document.querySelectorAll('.binder-pages-nav button').forEach((b,j)=>{if(j===active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
+    document.querySelector('#binder-counter').textContent=`Seite ${active+1} von ${rooms[i].sections.length}`;
+    document.querySelector('#binder-prev').disabled=active===0;
+    document.querySelector('#binder-next').disabled=active===rooms[i].sections.length-1;
+    if(animate && state.settings.motion && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+      const page=body.querySelector('.paragraph:not([hidden])');
+      if(page.animate)page.animate([{transform:`perspective(1000px) rotateY(${direction*7}deg) translateX(${direction*10}px)`},{transform:'perspective(1000px) rotateY(0deg) translateX(0px)'}],{duration:320,easing:'cubic-bezier(.16,1,.3,1)'});
+    }
+  }
+  function turnPage(target) {
+    if(current.view!=='room')return;
+    const i=current.room,previous=state.rooms[i].page,next=Math.max(0,Math.min(rooms[i].sections.length-1,target));
+    if(previous===next)return;
+    state.rooms[i].page=next;updateBinder(i,true,next>previous?1:-1);persist();
   }
   function notesReady(i) { return rooms[i].fields.map((f,j)=>state.rooms[i].notes[j].trim().length >= f.min); }
   function answersReady(i) { return rooms[i].exercises.map((ex,j)=>state.rooms[i].answers[j].trim() === ex.answer); }
@@ -163,6 +191,7 @@
   }
   const actions = {
     home:()=>navigate('home'), notebook:()=>navigate('notebook'), teacher:()=>navigate('teacher'), room:b=>navigate('room',Number(b.dataset.room)),
+    page:b=>turnPage(Number(b.dataset.page)), 'prev-page':()=>turnPage(state.rooms[current.room].page-1), 'next-page':()=>turnPage(state.rooms[current.room].page+1),
     'close-modal':()=>modal.close(), check:checkPuzzle,
     instructions:()=>showModal('Eure Mission in fünf Schritten',`<ol><li>Öffnet den ersten Raum und lest die Nachricht aus der Fabrik.</li><li>Erschließt die Akte. Markiert passende Absätze als Textbelege.</li><li>Haltet drei Ergebnisse im persönlichen Ermittlungsheft fest.</li><li>Löst die vier Fachaufgaben. Bei Bedarf helfen Glossar und drei Hinweise.</li><li>Gebt die Kennziffern in der geforderten Reihenfolge ein. Die nächste Tür öffnet sich.</li></ol><p>Im Team rätseln, individuell festhalten: Jede Person sollte ein eigenes Gerät oder ein eigenes exportiertes Heft verwenden. Es gibt keinen Countdown. Einträge werden lokal gespeichert.</p><button class="button" data-action="start-from-modal">Ersten Raum betreten${icon('arrow')}</button>`),
     'start-from-modal':()=>{modal.close();navigate('room',0);},
@@ -191,6 +220,7 @@
   });
   document.addEventListener('change',event=>{const el=event.target;if(el.dataset.setting){state.settings[el.dataset.setting]=el.checked;settings();persist();}});
   document.addEventListener('submit',event=>{if(event.target.id==='code-form'){event.preventDefault();openDoor();}});
+  document.addEventListener('keydown',event=>{if(current.view==='room' && event.target.closest('.document') && !event.target.matches('input,textarea,select') && !modal.open && ['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();turnPage(state.rooms[current.room].page+(event.key==='ArrowRight'?1:-1));}});
   window.addEventListener('hashchange',route);
   window.addEventListener('beforeunload',()=>{clearTimeout(saveTimer);persist();});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)persist();});
