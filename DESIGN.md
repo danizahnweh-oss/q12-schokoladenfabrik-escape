@@ -16,3 +16,6 @@ Verschlossen, verfügbar, abgeschlossen. Hilfen stufenweise. Falsche Codes mit k
 
 ## Fachrätsel und Anlagen
 Berichte per Auswahl und Ablage zuordnen, Prozessstationen per Pfeiltasten sortieren, Antwortkarten, Rechenfelder und Fachbegriffe als Lückentext. Die ursprünglichen Antwortschlüssel und gespeicherten Einträge bleiben kompatibel. Jede Akte enthält ein zusätzliches Anlagenblatt mit eigenem Auswertungsauftrag: Organigramm, Ablaufplan, Kosten- oder Bestandsdiagramm mit Tabelle, Lieferantenübersicht oder Sitzungsprotokoll. Diagramme haben Textbeschreibungen, Werte und unterscheidbare Linien; alle Interaktionen funktionieren ohne Ziehen.
+
+## iPad
+Bis 1199 px nutzt die Akte die volle Breite. Ein fester Schnellzugriff verbindet Akte, Notizen, Rätsel und Tür ohne lange Scrollwege. Eingaben verwenden mindestens 16 px Schrift; wichtige Touchziele mindestens 48 px. Bei Texteingabe verschwindet der Schnellzugriff, Safe-Area-Abstände berücksichtigen den unteren Bildschirmrand. Zeitangaben pro Raum entfallen.
