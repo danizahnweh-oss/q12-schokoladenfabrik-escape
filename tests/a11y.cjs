@@ -2,12 +2,13 @@ const {chromium}=require('playwright');
 const fs=require('node:fs');
 const path=require('node:path');
 const axePath=process.env.AXE_PATH;
+const BASE=process.env.TEST_URL||'http://127.0.0.1:4173';
 if(!axePath)throw new Error('AXE_PATH muss auf axe.min.js zeigen.');
 (async()=>{
  const browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{})});
  const context=await browser.newContext({viewport:{width:1440,height:1000}});
  const page=await context.newPage();
- await page.goto(process.env.TEST_URL||'http://127.0.0.1:4173');
+ await page.goto(BASE);
  const reports=[];
  async function audit(label){await page.addScriptTag({path:axePath});const r=await page.evaluate(()=>axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21a','wcag21aa']}}));reports.push({label,violations:r.violations.map(v=>({id:v.id,impact:v.impact,description:v.description,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})),incomplete:r.incomplete.length});console.log(`${label}: ${r.violations.length} Verstöße, ${r.incomplete.length} manuell zu prüfende Gruppen`);}
  await audit('Fabrikplan');
