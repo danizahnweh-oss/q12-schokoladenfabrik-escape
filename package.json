@@ -1,0 +1,7 @@
+{
+  "name": "q12-schokoladenfabrik-escape",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Escape Game für Q12 Wirtschaft und Recht",
+  "scripts": { "start": "python3 -m http.server 4173 --directory dist", "check": "node --check dist/app.js && node --check dist/content.js && node --check dist/sw.js", "test": "node tests/e2e.cjs" }
+}
