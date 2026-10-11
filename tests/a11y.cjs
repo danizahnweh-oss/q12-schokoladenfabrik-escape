@@ -14,7 +14,7 @@ if(!axePath)throw new Error('AXE_PATH muss auf axe.min.js zeigen.');
  await page.getByRole('button',{name:'Mission beginnen'}).click();await audit('Strategiebüro');
  await page.getByRole('button',{name:'Einstellungen'}).click();await audit('Einstellungen-Dialog');await page.locator('#setting-dark').check();await page.getByRole('button',{name:'Fenster schließen'}).click();await audit('Dunkle Lesefläche');
  await page.getByRole('button',{name:'Ermittlungsheft',exact:true}).click();await audit('Ermittlungsheft');
- await page.getByRole('button',{name:'Lehrkraft',exact:true}).click();await audit('Lehrkraft');
+ await page.goto(`${BASE}/#teacher`);await audit('Lehrkraft');
  await page.setViewportSize({width:390,height:844});await page.getByRole('button',{name:'Fabrikplan',exact:true}).click();await audit('Handy-Fabrikplan');
  const output=path.resolve(__dirname,'../test-results');fs.mkdirSync(output,{recursive:true});fs.writeFileSync(path.join(output,'a11y.json'),JSON.stringify(reports,null,2));
  await browser.close();
