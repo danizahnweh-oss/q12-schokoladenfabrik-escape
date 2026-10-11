@@ -78,6 +78,7 @@ function pass(name) { passed++; console.log(`✓ ${name}`); }
  await page.getByRole('button',{name:'Backup importieren'}).click();
  await page.locator('#backup-file').setInputFiles({name:'invalid.json',mimeType:'application/json',buffer:Buffer.from('{"version":99}')});
  await page.getByRole('button',{name:'Ausgewähltes Backup übernehmen'}).click();
+ await page.waitForFunction(()=>document.querySelector('#import-info')?.textContent.includes('Import nicht möglich'));
  assert.match(await page.locator('#import-info').textContent(),/Import nicht möglich/);
  assert.equal(await page.locator('#profile-name').inputValue(),'Testperson');
  await page.getByRole('button',{name:'Fenster schließen'}).click();
@@ -92,10 +93,11 @@ function pass(name) { passed++; console.log(`✓ ${name}`); }
  await page.getByRole('button',{name:'Backup importieren'}).click();
  await page.locator('#backup-file').setInputFiles(path.join(output,'backup.json'));
  await page.getByRole('button',{name:'Ausgewähltes Backup übernehmen'}).click();
+ await page.waitForFunction(()=>!document.querySelector('#modal').open);
  assert.equal(await page.locator('#profile-name').inputValue(),'Testperson');
  pass('Bestätigter Neustart und vollständiger Wiederimport');
  const evil=JSON.parse(fs.readFileSync(path.join(output,'backup.json'),'utf8'));evil.rooms[0].notes[0]='<img src=x onerror="window.INJECTED=true">';fs.writeFileSync(path.join(output,'evil.json'),JSON.stringify(evil));
- await page.getByRole('button',{name:'Backup importieren'}).click();await page.locator('#backup-file').setInputFiles(path.join(output,'evil.json'));await page.getByRole('button',{name:'Ausgewähltes Backup übernehmen'}).click();
+ await page.getByRole('button',{name:'Backup importieren'}).click();await page.locator('#backup-file').setInputFiles(path.join(output,'evil.json'));await page.getByRole('button',{name:'Ausgewähltes Backup übernehmen'}).click();await page.waitForFunction(()=>!document.querySelector('#modal').open);
  assert.equal(await page.locator('.book-entry img').count(),0);assert.equal(await page.evaluate(()=>window.INJECTED),undefined);
  pass('Importierte Texte werden sicher als Text dargestellt');
  await page.getByRole('button',{name:'Fabrikplan',exact:true}).click();
