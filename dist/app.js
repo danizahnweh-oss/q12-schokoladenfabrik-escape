@@ -1,7 +1,8 @@
 (() => {
   'use strict';
   const rooms = window.ROOMS, glossary = window.GLOSSARY;
-  const key = 'schokoladenfabrik-q12-v1';
+  const preview = new URLSearchParams(location.search).get('vorschau') === '1';
+  const key = preview ? 'schokoladenfabrik-q12-v1-vorschau' : 'schokoladenfabrik-q12-v1';
   const main = document.querySelector('#main'), modal = document.querySelector('#modal');
   let current = { view: 'home', room: 0 }, saveTimer, toastTimer, storageAvailable = true, initialWarning = '';
   let binderMotion = null;
@@ -63,9 +64,9 @@
   function queueSave() { document.querySelector('#save-status').textContent = 'Speichert …'; clearTimeout(saveTimer); saveTimer = setTimeout(persist, 450); }
   function toast(message) { const t = document.querySelector('#toast'); t.textContent = message; t.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 4600); }
   function settings() { document.body.classList.toggle('motion-off', !state.settings.motion); document.body.classList.toggle('dark-reader', state.settings.dark); document.body.classList.toggle('reading-large', state.settings.large); binderMotion?.stop?.(); binderMotion?.measure?.(); }
-  const available = i => i === 0 || state.rooms[i].released || state.rooms[i].completed || state.rooms[i - 1].completed;
+  const available = i => preview || i === 0 || state.rooms[i].released || state.rooms[i].completed || state.rooms[i - 1].completed;
   const done = () => state.rooms.filter(r => r.completed).length;
-  const status = i => state.rooms[i].completed ? 'Abgeschlossen' : available(i) ? 'Jetzt zugänglich' : 'Verschlossen';
+  const status = i => preview ? 'Frei zugänglich' : state.rooms[i].completed ? 'Abgeschlossen' : available(i) ? 'Jetzt zugänglich' : 'Verschlossen';
   function navigate(view, index = 0) {
     if (view === 'room' && !available(index)) { toast(`Öffne zuerst die Tür in ${rooms[index - 1].name}.`); return; }
     const hash = view === 'room' ? `#raum/${index + 1}` : view === 'home' ? '#' : `#${view}`;
@@ -114,6 +115,9 @@
   function renderRoom(i) {
     const r = rooms[i], s = state.rooms[i];
     main.innerHTML = `<div class="page"><div class="breadcrumb"><button data-action="home">← Fabrikplan</button><span>/</span><span>Raum ${i+1} von 6</span></div><div class="room-heading"><span class="room-number" aria-hidden="true">0${i+1}</span><div><h1>${E(r.name)}</h1><p>${E(r.subtitle)} · ${E(r.time)}</p></div></div><nav class="room-tabs" aria-label="Räume">${rooms.map((room,j)=>`<button data-action="room" data-room="${j}" class="${i===j?'current':''}" ${i===j?'aria-current="page"':''} aria-disabled="${!available(j)}">${j+1}. ${E(room.name)}${!available(j)?' 🔒':''}</button>`).join('')}</nav><div class="briefing">${icon(r.icon)}<p><strong>Nachricht aus der Fabrik</strong>${E(r.dispatch)}</p></div>${s.completed?`<div class="complete-banner"><strong>Tür geöffnet. Eure Arbeit bleibt bearbeitbar.</strong>${i<5?'Der nächste Raum ist jetzt zugänglich.':'Alle Türen sind offen. Sichert euer Ermittlungsheft.'} <button class="text-button" data-action="${i<5?'room':'notebook'}" ${i<5?`data-room="${i+1}"`:''}>${i<5?'Zum nächsten Raum →':'Zum Ermittlungsheft →'}</button></div>`:''}<div class="workspace"><article class="document" aria-labelledby="document-title"><div class="document-header"><span class="document-label">${E(r.document)} · ${r.sections.reduce((n,s)=>n+s.text.split(/\s+/).length,0)} Wörter</span><h2 id="document-title">${E(r.subtitle)}</h2><p>${E(r.intro)}</p>${r.legalNote?`<div class="legal-note">${E(r.legalNote)}</div>`:''}<div class="reading-tools"><button data-action="glossary">Fachbegriffe nachschlagen</button><button data-action="large" aria-pressed="${state.settings.large}">${state.settings.large?'Text kleiner':'Text größer'}</button><span>Absätze als Belege markieren</span></div></div><div class="document-body">${r.sections.map((sec,j)=>`<section class="paragraph ${s.marked.includes(j)?'marked':''}" id="absatz-${j+1}"><h3><span>${j+1}</span>${E(sec.title)}</h3><p>${E(sec.text)}</p><button class="mark-button" data-action="mark" data-paragraph="${j}" aria-pressed="${s.marked.includes(j)}" aria-label="Absatz ${j+1} ${s.marked.includes(j)?'Markierung entfernen':'markieren'}">${s.marked.includes(j)?'✓ Absatz markiert':'Absatz markieren'}</button></section>`).join('')}</div><footer class="document-source"><p>Quellen und Einordnung</p>${r.sources.map(source=>`<p>${source.url?`<a href="${E(source.url)}" target="_blank" rel="noopener noreferrer">${E(source.label)} ↗</a>`:E(source.label)}</p>`).join('')}<p>Eigenständiger Lerntext. Heller & Söhne und sämtliche Unternehmensdaten sind fiktiv.</p></footer></article><aside class="workbench" aria-label="Arbeitsbereich"><section class="work-panel"><div class="panel-top">${icon('book')}<h2>Ermittlungsheft</h2><span class="small-badge">Akte ${String.fromCharCode(65+i)}</span></div><p>Haltet eure Ergebnisse in eigenen Worten fest. Die Mindestlänge prüft den Arbeitsstand, nicht die fachliche Qualität.</p>${r.fields.map((_,j)=>fieldHTML(r,i,j)).join('')}<button class="text-button" data-action="notebook">Alle bisherigen Einträge ansehen →</button></section><section class="work-panel"><div class="panel-top">${icon('compass')}<h2>Das Fachrätsel</h2></div><p>${E(r.puzzle)}</p>${r.exercises.map((_,j)=>exerciseHTML(r,i,j)).join('')}<button class="button secondary" data-action="check">Zuordnungen prüfen${icon('check')}</button><div id="puzzle-feedback" class="check-feedback" role="status" aria-live="polite"></div><div class="hint-box"><div class="hint-top"><button data-action="hint">${icon('bulb')} ${s.hints<3?'Nächsten Hinweis öffnen':'Alle Hinweise geöffnet'}</button><small id="hint-count">${s.hints} / 3 Hilfen</small></div><div id="hints">${r.hints.slice(0,s.hints).map((h,j)=>`<p class="hint-text"><strong>Hinweis ${j+1}</strong><br>${E(h)}</p>`).join('')}</div></div></section><section class="lock-panel"><h2>${icon(s.completed?'unlock':'lock')}${i===5?'Das letzte Schloss':'Das Türschloss'}</h2><p>Alle vier Rätselantworten müssen stimmen und die drei Einträge vorhanden sein. Gebt dann die Kennziffern als vierstelligen Code ein.</p><form class="code-form" id="code-form"><div class="field"><label for="door-code">Vierstelliger Türcode</label><input id="door-code" name="code" type="text" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off" required aria-describedby="lock-feedback" placeholder="· · · ·"></div><button class="button" type="submit">Tür öffnen${icon('unlock')}</button></form><div id="lock-feedback" class="check-feedback" role="status" aria-live="polite"></div></section>${graphic(i)}</aside></div></div>`;
+    if(preview){
+      document.querySelector('.lock-panel').innerHTML=`<h2>${icon('unlock')}Freier Zugang</h2><p>In dieser Vorschau könnt ihr jeden Raum ohne Code öffnen.</p><button class="button" data-action="${i<5?'room':'home'}" ${i<5?`data-room="${i+1}"`:''}>${i<5?'Nächsten Raum ansehen':'Zur Übersicht'}${icon('arrow')}</button>`;
+    }
     installBinder(i);
   }
   function installBinder(i) {
@@ -296,6 +300,9 @@
   document.addEventListener('visibilitychange',()=>{if(document.hidden){binderMotion?.stop?.();persist();}});
   window.addEventListener('storage',event=>{if(event.key===key&&event.newValue)toast('Die Mission wurde in einem anderen Tab geändert. Verwendet möglichst nur einen Tab und sichert eure aktuellen Einträge.');});
   modal.addEventListener('click',event=>{if(event.target===modal){const rect=modal.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)modal.close();}});
+  if(preview){
+    document.querySelector('.site-header').insertAdjacentHTML('afterend',`<div class="preview-banner"><strong>Freie Vorschau</strong><span>Alle sechs Räume sind direkt zugänglich.</span><a href="${E(location.pathname)}">Zur Spielversion →</a></div>`);
+  }
   settings();route();if(initialWarning)toast(initialWarning);
   if('serviceWorker' in navigator && location.protocol !== 'file:')navigator.serviceWorker.register('sw.js').catch(()=>{/* Offline-Speicherung ist optional, Notizen funktionieren unabhängig davon. */});
 })();

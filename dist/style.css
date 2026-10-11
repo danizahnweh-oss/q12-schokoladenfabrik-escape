@@ -38,3 +38,5 @@
 .motion-off .binder-turn{display:none}
 @media(prefers-reduced-motion:reduce){.binder-turn{display:none}}
 @media print{.binder-turn,.binder-measure{display:none}}
+
+.preview-banner{max-width:1384px;margin:16px auto 0;padding:12px 24px;border:1px solid var(--gold);border-radius:6px;background:var(--surface);display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:.85rem}.preview-banner strong{color:var(--gold)}.preview-banner a{margin-left:auto;color:var(--gold);min-height:44px;display:inline-flex;align-items:center;text-underline-offset:4px}@media(max-width:1100px){.preview-banner{margin:16px 24px 0}}@media(max-width:520px){.preview-banner{margin:12px 16px 0;padding:12px 16px;gap:8px}.preview-banner a{margin-left:0}}

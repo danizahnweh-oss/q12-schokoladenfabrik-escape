@@ -24,3 +24,9 @@ Das Fabrikmotiv wird mit dem eingebauten Bildgenerator erstellt: detaillierter i
 
 ## Verifikation
 Der vollständige Browserdurchlauf prüft 16 Gruppen: Türsperren, Notizen, Zuordnungen, falsche Codes, alle sechs Räume, blätterbare Akten, Speicherung, Export und Import, sichere Textdarstellung, Offline-Nutzung, Handy, Tablet und WebKit. `tests/a11y.cjs` prüft sieben Ansichten mit axe auf WCAG 2.1 A/AA. Automatische Prüfungen ersetzen keine vollständige manuelle Zugänglichkeitsbewertung.
+
+## Eigene Domain und freie Vorschau
+Spielversion: https://daniel-zahnweh.de/Q12/Fabrik/
+Freie Vorschau mit sechs direkt zugänglichen Räumen: https://daniel-zahnweh.de/Q12/Fabrik/?vorschau=1
+Die Vorschau verwendet einen eigenen lokalen Speicherbereich. Sie öffnet Räume ohne Code und lässt den Arbeitsstand der Spielversion unverändert. Der URL-Parameter funktioniert auch auf GitHub Pages.
+Die Domain-Veröffentlichung enthält die Dateien aus `dist` unter `dist/Q12/Fabrik` in der bestehenden Domain-Website.
