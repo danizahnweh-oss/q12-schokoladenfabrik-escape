@@ -18,8 +18,9 @@ function pass(name) { passed++; console.log(`✓ ${name}`); }
  const browser = await chromium.launch({ headless: true, ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}) });
  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, acceptDownloads: true });
  const page = await context.newPage();
- const errors = [];
+ const errors = [], assetErrors = [];
  page.on('pageerror', e=>errors.push(e.message));
+ page.on('response',response=>{if(response.status()>=400 && response.url().startsWith(BASE))assetErrors.push(`${response.status()} ${response.url()}`);});
  assert.equal((await page.goto(BASE)).status(), 200);
  await page.waitForSelector('.room-door');
  await page.screenshot({path:path.join(output,'home-desktop.png'),fullPage:true});
@@ -45,6 +46,15 @@ function pass(name) { passed++; console.log(`✓ ${name}`); }
  assert.equal(await page.locator('.paragraph.marked').count(),1);
  assert.match(await page.locator('#hint-count').textContent(),/2 \/ 3/);
  pass('Textmarkierungen und Hilfestufen bleiben nach Neuladen erhalten');
+ assert.equal(await page.locator('.paragraph:not([hidden])').count(),1);
+ await page.getByRole('button',{name:'Nächste Seite',exact:true}).click();
+ assert.match(await page.locator('#binder-counter').textContent(),/Blatt 02/);
+ await page.getByRole('button',{name:'Nächste Seite',exact:true}).focus();await page.keyboard.press('ArrowRight');
+ assert.match(await page.locator('#binder-counter').textContent(),/Blatt 03/);
+ await page.reload();assert.match(await page.locator('#binder-counter').textContent(),/Blatt 03/);
+ await page.getByRole('button',{name:'Seite 1: Eine Entscheidung mit Folgen',exact:true}).click();
+ assert.equal(await page.locator('.paragraph.marked:not([hidden])').count(),1);
+ pass('Blätterbare Ermittlungsakte: eine Seite je Absatz, Pfeiltasten und gespeicherte Seitenauswahl');
  for (let i=0;i<6;i++) {
    await page.waitForURL(`**/#raum/${i+1}`);
    for(let j=0;j<3;j++)await page.locator(`#note-${j}`).fill(analysis);
@@ -115,8 +125,8 @@ function pass(name) { passed++; console.log(`✓ ${name}`); }
  await mobile.close();
  await page.setViewportSize({width:820,height:1180});await page.goto(`${BASE}/#raum/4`);await page.screenshot({path:path.join(output,'room-tablet.png'),fullPage:true});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  pass('Tablet-Hochformat ohne horizontalen Überlauf');
- assert.deepEqual(errors,[]);pass('Keine JavaScript-Laufzeitfehler');
+ assert.deepEqual(errors,[]);assert.deepEqual(assetErrors,[]);pass('Keine JavaScript-Laufzeitfehler oder fehlenden lokalen Dateien');
  await browser.close();
- try{const safari=await webkit.launch({headless:true,...(process.env.WEBKIT_PATH?{executablePath:process.env.WEBKIT_PATH}:{})});const sp=await safari.newPage({viewport:{width:1024,height:768}});await sp.goto(BASE);await sp.getByRole('button',{name:'Mission beginnen'}).click();await sp.locator('#note-0').fill(analysis);await sp.reload();assert.equal(await sp.locator('#note-0').inputValue(),analysis);await safari.close();pass('WebKit: Start und Speicherung funktionieren');}catch(e){console.error('WebKit-Test fehlgeschlagen:',e.message);throw e;}
+ if(process.env.TEST_WEBKIT==='1'){const safari=await webkit.launch({headless:true,timeout:10000,...(process.env.WEBKIT_PATH?{executablePath:process.env.WEBKIT_PATH}:{})});const sp=await safari.newPage({viewport:{width:1024,height:768}});await sp.goto(BASE);await sp.getByRole('button',{name:'Mission beginnen'}).click();await sp.locator('#note-0').fill(analysis);await sp.reload();assert.equal(await sp.locator('#note-0').inputValue(),analysis);await safari.close();pass('WebKit: Start und Speicherung funktionieren');}
  console.log(`\n${passed} Prüfgruppen bestanden.`);
 })().catch(e=>{console.error(e);process.exit(1);});

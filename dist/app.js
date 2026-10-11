@@ -114,6 +114,9 @@
   function installBinder(i) {
     const r=rooms[i],article=document.querySelector('.document'),body=document.querySelector('.document-body');
     article.classList.add('binder');
+    article.classList.add('case-dossier');
+    article.insertAdjacentHTML('afterbegin',`<div class="folder-tab" aria-hidden="true">AKTE ${String.fromCharCode(65+i)} · HELLER & SÖHNE</div><div class="dossier-band"><span>${icon('file')}Interne Ermittlungsakte</span><span class="case-reference">H&amp;S / Q12 / 0${i+1}</span></div>`);
+    article.querySelector('.document-header').insertAdjacentHTML('afterbegin','<span class="confidential-stamp" aria-hidden="true">VERTRAULICH</span>');
     body.id='binder-pages';
     body.insertAdjacentHTML('beforebegin', `<div class="binder-toolbar"><span>Eine Seite pro Absatz</span><nav class="binder-pages-nav" aria-label="Seiten dieser Akte">${r.sections.map((sec,j)=>`<button data-action="page" data-page="${j}" aria-label="Seite ${j+1}: ${E(sec.title)}" aria-controls="binder-pages">${j+1}</button>`).join('')}</nav></div>`);
     body.insertAdjacentHTML('afterbegin','<span class="binder-rings" aria-hidden="true"><i></i><i></i><i></i></span>');
@@ -124,7 +127,7 @@
     const active=state.rooms[i].page,body=document.querySelector('.document-body');
     body.querySelectorAll('.paragraph').forEach((p,j)=>{p.hidden=j!==active;});
     document.querySelectorAll('.binder-pages-nav button').forEach((b,j)=>{if(j===active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
-    document.querySelector('#binder-counter').textContent=`Seite ${active+1} von ${rooms[i].sections.length}`;
+    document.querySelector('#binder-counter').textContent=`Blatt ${String(active+1).padStart(2,'0')} / ${String(rooms[i].sections.length).padStart(2,'0')}`;
     document.querySelector('#binder-prev').disabled=active===0;
     document.querySelector('#binder-next').disabled=active===rooms[i].sections.length-1;
     if(animate && state.settings.motion && !matchMedia('(prefers-reduced-motion: reduce)').matches){

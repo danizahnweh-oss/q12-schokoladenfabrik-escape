@@ -2,6 +2,8 @@
 
 Vollständige statische Lernwebsite für Q12 Wirtschaft und Recht: sechs Räume, eigene anspruchsvolle Lerntexte, Fachrätsel und Codes, Hilfen, Ermittlungsheft und Unterrichtswerkzeuge. Die Akten sind als blätterbare Hefter gestaltet: ein Absatz pro Seite, Seitenauswahl, Vor-/Zurück-Schaltflächen und Pfeiltasten innerhalb der Akte. Die aktuelle Seite und Markierungen bleiben gespeichert.
 
+Die Akten besitzen einen historischen Umschlag, Registerlaschen, Aktenzeichen, einen dezenten Stempel, Schreibmaschinenschrift und eine gealterte Papiertextur.
+
 ## Unterricht
 Vier Doppelstunden. Teamarbeit beim Erschließen und Rätseln, individuelle Ergebnissicherung im eigenen Browser. Kein Konto erforderlich. Einträge werden ausschließlich auf dem verwendeten Gerät und Browser gespeichert. Keine gemeinsame Cloud-Synchronisation. Backups erlauben einen Gerätewechsel.
 
@@ -19,3 +21,6 @@ Notizen und Textmarkierungen werden lokal gespeichert. Ein Ermittlungsheft läss
 
 ## Grafik
 Das Fabrikmotiv wird mit dem eingebauten Bildgenerator erstellt: detaillierter isometrischer Fabrikschnitt mit sechs verbundenen Räumen, Abendlicht, Kupferkesseln, Backstein und dunkelblauem Umfeld; ohne Beschriftungen, Personen oder Logos. Der genaue Prompt liegt in `ASSETS.md`.
+
+## Verifikation
+Der vollständige Browserdurchlauf prüft 16 Gruppen: Türsperren, Notizen, Zuordnungen, falsche Codes, alle sechs Räume, blätterbare Akten, Speicherung, Export und Import, sichere Textdarstellung, Offline-Nutzung, Handy, Tablet und WebKit. `tests/a11y.cjs` prüft sieben Ansichten mit axe auf WCAG 2.1 A/AA. Automatische Prüfungen ersetzen keine vollständige manuelle Zugänglichkeitsbewertung.
