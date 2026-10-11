@@ -1,6 +1,6 @@
 # Die verschlossene Schokoladenfabrik
 
-Vollständige statische Lernwebsite für Q12 Wirtschaft und Recht: sechs Räume, eigene anspruchsvolle Lerntexte, Fachrätsel und Codes, Hilfen, Ermittlungsheft und Unterrichtswerkzeuge. Die Akten sind als blätterbare Hefter gestaltet: ein Absatz pro Seite, Seitenauswahl, Vor-/Zurück-Schaltflächen und Pfeiltasten innerhalb der Akte. Die aktuelle Seite und Markierungen bleiben gespeichert.
+Vollständige statische Lernwebsite für Q12 Wirtschaft und Recht: sechs Räume, eigene anspruchsvolle Lerntexte, Fachrätsel und Codes, Hilfen, Ermittlungsheft und Unterrichtswerkzeuge. Die Akten sind als blätterbare Hefter gestaltet: ein Absatz pro Seite, Seitenauswahl, Vor-/Zurück-Schaltflächen und Pfeiltasten innerhalb der Akte. Die aktuelle Seite und Markierungen bleiben gespeichert. Beim Blättern dreht sich ein vollständiges Papierblatt am Heftrand, mit Rückseite, leicht durchscheinender Schrift und bewegtem Schatten. Die Lesefläche bleibt gleich hoch; schnelle Seitenwechsel unterbrechen die laufende Bewegung sauber. Reduzierte Bewegung und ausgeschaltete Animationen führen zu sofortigen Wechseln.
 
 Die Akten besitzen einen historischen Umschlag, Registerlaschen, Aktenzeichen, einen dezenten Stempel, Schreibmaschinenschrift und eine gealterte Papiertextur.
 

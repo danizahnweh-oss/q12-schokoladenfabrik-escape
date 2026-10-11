@@ -4,6 +4,8 @@
   const key = 'schokoladenfabrik-q12-v1';
   const main = document.querySelector('#main'), modal = document.querySelector('#modal');
   let current = { view: 'home', room: 0 }, saveTimer, toastTimer, storageAvailable = true, initialWarning = '';
+  let binderMotion = null;
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const blank = () => ({ version: 1, name: '', team: '', settings: { motion: true, sound: false, dark: false, large: false }, rooms: rooms.map(() => ({ notes: ['', '', ''], answers: ['', '', '', ''], completed: false, released: false, hints: 0, marked: [], page: 0 })), updated: null });
   const E = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const icons = {
@@ -60,7 +62,7 @@
   }
   function queueSave() { document.querySelector('#save-status').textContent = 'Speichert …'; clearTimeout(saveTimer); saveTimer = setTimeout(persist, 450); }
   function toast(message) { const t = document.querySelector('#toast'); t.textContent = message; t.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 4600); }
-  function settings() { document.body.classList.toggle('motion-off', !state.settings.motion); document.body.classList.toggle('dark-reader', state.settings.dark); document.body.classList.toggle('reading-large', state.settings.large); }
+  function settings() { document.body.classList.toggle('motion-off', !state.settings.motion); document.body.classList.toggle('dark-reader', state.settings.dark); document.body.classList.toggle('reading-large', state.settings.large); binderMotion?.stop?.(); binderMotion?.measure?.(); }
   const available = i => i === 0 || state.rooms[i].released || state.rooms[i].completed || state.rooms[i - 1].completed;
   const done = () => state.rooms.filter(r => r.completed).length;
   const status = i => state.rooms[i].completed ? 'Abgeschlossen' : available(i) ? 'Jetzt zugänglich' : 'Verschlossen';
@@ -80,6 +82,9 @@
     render(); main.focus({ preventScroll: true }); window.scrollTo(0, 0);
   }
   function render() {
+    binderMotion?.stop?.();
+    binderMotion?.observer.disconnect();
+    binderMotion = null;
     settings();
     document.querySelectorAll('.nav-button').forEach(b => b.removeAttribute('aria-current'));
     document.querySelector(`.nav-button[data-action="${current.view === 'room' ? 'home' : current.view}"]`)?.setAttribute('aria-current', 'page');
@@ -121,25 +126,86 @@
     body.insertAdjacentHTML('beforebegin', `<div class="binder-toolbar"><span>Eine Seite pro Absatz</span><nav class="binder-pages-nav" aria-label="Seiten dieser Akte">${r.sections.map((sec,j)=>`<button data-action="page" data-page="${j}" aria-label="Seite ${j+1}: ${E(sec.title)}" aria-controls="binder-pages">${j+1}</button>`).join('')}</nav></div>`);
     body.insertAdjacentHTML('afterbegin','<span class="binder-rings" aria-hidden="true"><i></i><i></i><i></i></span>');
     body.insertAdjacentHTML('afterend','<nav class="binder-pagination" aria-label="In der Akte blättern"><button id="binder-prev" data-action="prev-page" aria-label="Vorherige Seite">← <span>Zurück</span></button><span id="binder-counter" role="status" aria-live="polite"></span><button id="binder-next" data-action="next-page" aria-label="Nächste Seite"><span>Weiter</span> →</button></nav>');
-    updateBinder(i,false);
+    updateBinder(i);
+    const measure=()=>{
+      if(!body.isConnected)return;
+      const padding=getComputedStyle(body);
+      body.style.setProperty('--leaf-left',padding.paddingLeft);
+      body.style.setProperty('--leaf-right',padding.paddingRight);
+      body.style.setProperty('--leaf-top',padding.paddingTop);
+      body.style.setProperty('--leaf-bottom',padding.paddingBottom);
+      const probe=document.createElement('div');
+      probe.className='binder-measure';probe.setAttribute('aria-hidden','true');probe.inert=true;
+      body.querySelectorAll(':scope > .paragraph').forEach(page=>probe.append(paperCopy(page)));
+      body.append(probe);
+      const height=Math.max(...Array.from(probe.children,page=>page.getBoundingClientRect().height));
+      probe.remove();
+      body.style.setProperty('--binder-page-height',`${Math.ceil(height+parseFloat(padding.paddingTop)+parseFloat(padding.paddingBottom))}px`);
+    };
+    let width=0;
+    const observer=new ResizeObserver(entries=>{
+      const next=entries[0].contentRect.width;
+      if(Math.abs(next-width)<1)return;
+      width=next;binderMotion?.stop?.();measure();
+    });
+    binderMotion={stop:null,measure,observer};measure();observer.observe(body);
   }
-  function updateBinder(i,animate=true,direction=1) {
+  function updateBinder(i) {
     const active=state.rooms[i].page,body=document.querySelector('.document-body');
     body.querySelectorAll('.paragraph').forEach((p,j)=>{p.hidden=j!==active;});
     document.querySelectorAll('.binder-pages-nav button').forEach((b,j)=>{if(j===active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
     document.querySelector('#binder-counter').textContent=`Blatt ${String(active+1).padStart(2,'0')} / ${String(rooms[i].sections.length).padStart(2,'0')}`;
     document.querySelector('#binder-prev').disabled=active===0;
     document.querySelector('#binder-next').disabled=active===rooms[i].sections.length-1;
-    if(animate && state.settings.motion && !matchMedia('(prefers-reduced-motion: reduce)').matches){
-      const page=body.querySelector('.paragraph:not([hidden])');
-      if(page.animate)page.animate([{transform:`perspective(1000px) rotateY(${direction*7}deg) translateX(${direction*10}px)`},{transform:'perspective(1000px) rotateY(0deg) translateX(0px)'}],{duration:320,easing:'cubic-bezier(.16,1,.3,1)'});
-    }
+  }
+  function paperCopy(page) {
+    const copy=page.cloneNode(true);
+    copy.hidden=false;copy.removeAttribute('id');
+    copy.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
+    copy.querySelectorAll('button').forEach(button=>{
+      const label=document.createElement('span');label.className=button.className;label.textContent=button.textContent;button.replaceWith(label);
+    });
+    return copy;
+  }
+  function animatePaper(body,outgoing,incoming,direction) {
+    if(!state.settings.motion || reducedMotion.matches || !body.animate)return;
+    const scene=document.createElement('div');scene.className='binder-turn';scene.setAttribute('aria-hidden','true');scene.inert=true;
+    if(direction<0){const under=document.createElement('div');under.className='binder-underpage';under.append(outgoing);scene.append(under);}
+    const shadow=document.createElement('div');shadow.className='binder-turn-shadow';scene.append(shadow);
+    const leaf=document.createElement('div');leaf.className='binder-leaf';
+    const front=document.createElement('div');front.className='binder-leaf-front';
+    const printed=direction>0?outgoing:paperCopy(incoming);front.append(printed);
+    const light=document.createElement('span');light.className='binder-leaf-light';front.append(light);
+    const curl=document.createElement('span');curl.className='binder-leaf-curl';front.append(curl);
+    const back=document.createElement('div');back.className='binder-leaf-back';
+    const ghost=paperCopy(printed);ghost.classList.add('binder-ink-bleed');back.append(ghost);
+    leaf.append(front,back);scene.append(leaf);body.append(scene);
+    const options={duration:500,easing:'cubic-bezier(.4,0,.2,1)',fill:'both',direction:direction>0?'normal':'reverse'};
+    const animation=leaf.animate([
+      {transform:'rotateY(0deg) rotateZ(0deg)',opacity:1,offset:0},
+      {transform:'rotateY(-24deg) rotateZ(-.6deg)',opacity:1,offset:.22},
+      {transform:'rotateY(-82deg) rotateZ(-1.2deg)',opacity:1,offset:.55},
+      {transform:'rotateY(-142deg) rotateZ(-.4deg)',opacity:1,offset:.86},
+      {transform:'rotateY(-172deg) rotateZ(0deg)',opacity:0,offset:1}
+    ],options);
+    const animations=[animation,
+      shadow.animate([{opacity:0,transform:'scaleX(1)'},{opacity:.3,transform:'scaleX(.55)',offset:.45},{opacity:0,transform:'scaleX(.06)'}],options),
+      light.animate([{opacity:0},{opacity:.55,offset:.5},{opacity:.1}],options),
+      curl.animate([{transform:'rotateY(0deg)'},{transform:'rotateY(-26deg)',offset:.4},{transform:'rotateY(0deg)'}],options)
+    ];
+    const controller=binderMotion;
+    const cleanup=()=>{animations.forEach(a=>a.cancel());scene.remove();if(controller?.stop===cleanup)controller.stop=null;};
+    controller.stop=cleanup;
+    Promise.all(animations.map(a=>a.finished.catch(()=>{}))).then(cleanup);
   }
   function turnPage(target) {
     if(current.view!=='room')return;
     const i=current.room,previous=state.rooms[i].page,next=Math.max(0,Math.min(rooms[i].sections.length-1,target));
     if(previous===next)return;
-    state.rooms[i].page=next;updateBinder(i,true,next>previous?1:-1);persist();
+    binderMotion?.stop?.();
+    const body=document.querySelector('.document-body'),outgoing=paperCopy(body.querySelector(':scope > .paragraph:not([hidden])'));
+    state.rooms[i].page=next;updateBinder(i);persist();
+    animatePaper(body,outgoing,body.querySelector(':scope > .paragraph:not([hidden])'),next>previous?1:-1);
   }
   function notesReady(i) { return rooms[i].fields.map((f,j)=>state.rooms[i].notes[j].trim().length >= f.min); }
   function answersReady(i) { return rooms[i].exercises.map((ex,j)=>state.rooms[i].answers[j].trim() === ex.answer); }
@@ -224,9 +290,10 @@
   document.addEventListener('change',event=>{const el=event.target;if(el.dataset.setting){state.settings[el.dataset.setting]=el.checked;settings();persist();}});
   document.addEventListener('submit',event=>{if(event.target.id==='code-form'){event.preventDefault();openDoor();}});
   document.addEventListener('keydown',event=>{if(current.view==='room' && event.target.closest('.document') && !event.target.matches('input,textarea,select') && !modal.open && ['ArrowLeft','ArrowRight'].includes(event.key)){event.preventDefault();turnPage(state.rooms[current.room].page+(event.key==='ArrowRight'?1:-1));}});
+  reducedMotion.addEventListener('change',()=>{if(reducedMotion.matches)binderMotion?.stop?.();});
   window.addEventListener('hashchange',route);
   window.addEventListener('beforeunload',()=>{clearTimeout(saveTimer);persist();});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden)persist();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){binderMotion?.stop?.();persist();}});
   window.addEventListener('storage',event=>{if(event.key===key&&event.newValue)toast('Die Mission wurde in einem anderen Tab geändert. Verwendet möglichst nur einen Tab und sichert eure aktuellen Einträge.');});
   modal.addEventListener('click',event=>{if(event.target===modal){const rect=modal.getBoundingClientRect();if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)modal.close();}});
   settings();route();if(initialWarning)toast(initialWarning);
