@@ -80,8 +80,8 @@ function pass(name) { passed++; console.log(`✓ ${name}`); }
    await page.locator('#door-code').fill(codes[i]);
    await page.locator('#code-form').getByRole('button',{name:'Tür öffnen'}).click();
  }
- await page.waitForSelector('.finish-panel');
- assert.match(await page.locator('.progress-area').textContent(),/6 von 6/);
+ await page.waitForSelector('.finale-page');
+ assert.match(await page.locator('.book-heading h1').textContent(),/Der Neustart/);
  pass('Alle sechs Räume inklusive Rechnen, falschem Code und finaler Freigabe');
  await page.getByRole('button',{name:'Ermittlungsheft sichern'}).click();
  await page.locator('#profile-name').fill('Testperson');
@@ -89,7 +89,7 @@ function pass(name) { passed++; console.log(`✓ ${name}`); }
  const mdPromise=page.waitForEvent('download');await page.getByRole('button',{name:'Heft herunterladen'}).click();const md=await mdPromise;await md.saveAs(path.join(output,'heft.md'));
  assert.match(fs.readFileSync(path.join(output,'heft.md'),'utf8'),/Testperson/);
  assert.match(fs.readFileSync(path.join(output,'heft.md'),'utf8'),/6 von 6/);
- assert.equal(await page.locator('.book-entry').count(),6);
+ assert.equal(await page.locator('.book-entry').count(),7);
  const jsonPromise=page.waitForEvent('download');await page.getByRole('button',{name:'Backup sichern',exact:true}).click();const json=await jsonPromise;await json.saveAs(path.join(output,'backup.json'));
  assert.equal(JSON.parse(fs.readFileSync(path.join(output,'backup.json'),'utf8')).rooms.filter(r=>r.completed).length,6);
  pass('Markdown und JSON-Backup enthalten Namen und vollständige Ergebnisse');

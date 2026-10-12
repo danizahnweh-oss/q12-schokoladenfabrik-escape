@@ -30,3 +30,6 @@ Spielversion: https://daniel-zahnweh.de/Q12/Fabrik/
 Freie Vorschau mit sechs direkt zugänglichen Räumen: https://daniel-zahnweh.de/Q12/Fabrik/?vorschau=1
 Die Vorschau verwendet einen eigenen lokalen Speicherbereich. Sie öffnet Räume ohne Code und lässt den Arbeitsstand der Spielversion unverändert. Der URL-Parameter funktioniert auch auf GitHub Pages.
 Die Domain-Veröffentlichung enthält die Dateien aus `dist` unter `dist/Q12/Fabrik` in der bestehenden Domain-Website.
+
+## Abschlussauftrag
+Nach der sechsten Tür öffnet sich `#finale`: vier zusammenhängende Teile eines Neustartplans, neue Nachfrage- und Kapazitätsbedingungen sowie ein gemeinsamer sechsstelliger Startcode aus allen sechs Türcodes. Die Akten und der Codepass bleiben zugänglich. Alle Abschlussnotizen und Codes werden lokal gespeichert und mit Markdown, Druck/PDF und JSON-Backup gesichert. Alte Backups erhalten eine leere Abschlussaufgabe. In der freien Vorschau ist das Finale direkt verfügbar.

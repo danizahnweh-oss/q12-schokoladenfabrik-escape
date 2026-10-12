@@ -19,3 +19,6 @@ Berichte per Auswahl und Ablage zuordnen, Prozessstationen per Pfeiltasten sorti
 
 ## iPad
 Bis 1199 px nutzt die Akte die volle Breite. Ein fester Schnellzugriff verbindet Akte, Notizen, Rätsel und Tür ohne lange Scrollwege. Eingaben verwenden mindestens 16 px Schrift; wichtige Touchziele mindestens 48 px. Bei Texteingabe verschwindet der Schnellzugriff, Safe-Area-Abstände berücksichtigen den unteren Bildschirmrand. Zeitvorgaben zur Bearbeitung entfallen auf der Startseite, in den Räumen und im Präsentationsauftrag. Zeitwerte in fachlichen Fallbeispielen bleiben erhalten.
+
+## Abschlussseite
+Ein vollständiger Fallauftrag, vier begründete Teilentscheidungen und ein Startcode aus allen sechs Raumcodes. Fall und Arbeitsbereich nebeneinander auf großen Displays, auf iPad und Handy untereinander. Beschriftete Zahleneingaben, schnelle Sprünge, keine Zeitvorgaben. Die automatische Kontrolle prüft Codes und Arbeitsstand; offene Urteile bleiben Gegenstand des Fachgesprächs.
