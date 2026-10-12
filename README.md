@@ -5,6 +5,7 @@ Vollständige statische Lernwebsite für Q12 Wirtschaft und Recht: sechs Räume,
 Die Akten besitzen einen historischen Umschlag, Registerlaschen, Aktenzeichen, einen dezenten Stempel, Schreibmaschinenschrift und eine gealterte Papiertextur.
 
 Die synthetischen Stimmen der Tonakte wurden lokal mit [Supertonic 3](https://github.com/supertone-oss-archive/supertonic) erzeugt. Die Website enthält nur die fertige Audiodatei und benötigt für die Wiedergabe keinen externen Dienst.
+Tonakte C3 ist als vertrauliches Gespräch zweier Mitarbeitender nach einer Besprechung inszeniert. Die Zahlen und offenen Fragen bleiben mit den Textblättern der Akte überprüfbar.
 
 ## Unterricht
 Planungsreferenz der Lehrkraft für den bisherigen Umfang: ungefähr 90 Minuten. Diese Einschätzung dient als Maßstab für kommende Aufgaben; die neue Tonakte mit Auswertung benötigt zusätzliche Bearbeitungszeit. Ausführliche Präsentationen oder Vertiefungen sind ebenfalls zusätzlich zu planen. Teamarbeit beim Erschließen und Rätseln, individuelle Ergebnissicherung im eigenen Browser. Kein Konto erforderlich. Einträge werden ausschließlich auf dem verwendeten Gerät und Browser gespeichert. Keine gemeinsame Cloud-Synchronisation. Backups erlauben einen Gerätewechsel.

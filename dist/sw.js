@@ -1,5 +1,5 @@
-const CACHE = 'schokoladenfabrik-v18';
-const FILES = ['./', './index.html', './style.css', './app.js', './content.js', './finale.js', './assets/factory.png', './assets/paper.png', './assets/favicon.svg', './assets/tonakte-c-neural.m4a'];
+const CACHE = 'schokoladenfabrik-v19';
+const FILES = ['./', './index.html', './style.css', './app.js', './content.js', './finale.js', './assets/factory.png', './assets/paper.png', './assets/favicon.svg', './assets/tonakte-c-vertraulich.m4a'];
 self.addEventListener('install', event => { event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', event => { event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith('schokoladenfabrik-') && k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', event => {
