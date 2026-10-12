@@ -75,3 +75,19 @@
 @media(max-width:1199px){.finale-layout{grid-template-columns:1fr;max-width:860px;margin-inline:auto}.finale-lock{max-width:860px;margin-inline:auto}.finale-page .book-heading{flex-wrap:wrap}.finale-page{padding-bottom:100px}}
 @media(max-width:700px){.finale-code-list{grid-template-columns:1fr}.finale-case,.finale-work,.finale-lock{padding:24px}.finale-code-list li{grid-template-columns:minmax(0,1fr) 100px;gap:12px}.finale-start{flex-direction:column;align-items:stretch;gap:20px}.finale-start .field{max-width:none}.restart-success{grid-template-columns:1fr;padding:24px}.restart-success img{max-width:420px;margin-inline:auto}.finale-links button{font-size:.82rem}}
 @media print{.finale-links,.finale-lock,.finale-book button{display:none!important}.finale-book{break-before:page}}
+
+/* Ein hörbares Beweisstück in der blätterbaren Ermittlungsakte. */
+.audio-evidence{margin:28px 0 24px;padding:20px;border:1px solid currentColor;color:var(--reading-ink);font-family:ui-monospace,'Courier New',monospace}
+.audio-evidence-heading{display:flex;align-items:center;gap:16px;padding-bottom:16px;border-bottom:1px solid currentColor}
+.audio-evidence-seal{display:flex;align-items:center;justify-content:center;flex:none;width:48px;height:48px;border:2px solid currentColor;border-radius:50%;font-size:.8rem;font-weight:700;letter-spacing:.05em}
+.audio-evidence-heading strong,.audio-evidence-heading span{display:block}
+.audio-evidence-heading strong{font-size:.88rem;line-height:1.4}
+.audio-evidence-heading div>span{font-size:.72rem;line-height:1.5;margin-top:4px}
+.audio-evidence audio{display:block;width:100%;min-height:54px;margin:20px 0 12px}
+.case-dossier .paragraph .audio-evidence-task{font-size:.78rem;line-height:1.6;margin:0 0 16px}
+.audio-transcript{border-top:1px solid currentColor;padding-top:8px}
+.audio-transcript summary{cursor:pointer;min-height:48px;display:flex;align-items:center;font-size:.8rem;font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.audio-transcript>div{padding-top:4px}
+.case-dossier .paragraph .audio-transcript p{font-size:.83rem;line-height:1.7;margin:12px 0}
+.audio-transcript strong{font-weight:700}
+@media(max-width:520px){.audio-evidence{padding:16px;margin:20px 0}.audio-evidence-heading{gap:12px}.audio-evidence-seal{width:44px;height:44px}.audio-evidence-heading strong{font-size:.8rem}.audio-evidence-heading div>span{font-size:.68rem}}
