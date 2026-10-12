@@ -5,7 +5,7 @@ Vollständige statische Lernwebsite für Q12 Wirtschaft und Recht: sechs Räume,
 Die Akten besitzen einen historischen Umschlag, Registerlaschen, Aktenzeichen, einen dezenten Stempel, Schreibmaschinenschrift und eine gealterte Papiertextur.
 
 ## Unterricht
-Vier Doppelstunden. Teamarbeit beim Erschließen und Rätseln, individuelle Ergebnissicherung im eigenen Browser. Kein Konto erforderlich. Einträge werden ausschließlich auf dem verwendeten Gerät und Browser gespeichert. Keine gemeinsame Cloud-Synchronisation. Backups erlauben einen Gerätewechsel.
+Planungsreferenz der Lehrkraft für den aktuell gebauten Umfang: ungefähr 90 Minuten. Diese Einschätzung dient als Maßstab für kommende Aufgaben; ausführliche Präsentationen oder Vertiefungen sind zusätzlich zu planen. Teamarbeit beim Erschließen und Rätseln, individuelle Ergebnissicherung im eigenen Browser. Kein Konto erforderlich. Einträge werden ausschließlich auf dem verwendeten Gerät und Browser gespeichert. Keine gemeinsame Cloud-Synchronisation. Backups erlauben einen Gerätewechsel.
 
 ## Start
 `npm start`, anschließend http://localhost:4173 öffnen. Die Website funktioniert auch mit jedem statischen Webserver. GitHub Pages veröffentlicht den Ordner `dist`.
