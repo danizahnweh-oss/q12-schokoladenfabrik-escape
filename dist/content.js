@@ -172,6 +172,20 @@ window.ROOMS[4].sections.push({"title": "Rechtsblatt E4: Abhilfe und Geschäftsb
 window.ROOMS[4].sections.push({"title": "Rechtsblatt E5: Hinweise bei mittelbaren Zulieferern", "text": "§ 9 LkSG knüpft zusätzliche Schritte an tatsächliche Anhaltspunkte, die eine Verletzung bei einem mittelbaren Zulieferer möglich erscheinen lassen. Diese substantiierte Kenntnis verlangt unverzüglich eine anlassbezogene Risikoanalyse, angemessene Prävention und ein umzusetzendes Konzept zur Verhinderung, Beendigung oder Minimierung; gegebenenfalls ist die Grundsatzerklärung anzupassen. Der Kinderarbeitshinweis erfüllt diese Voraussetzung als ausdrückliche Fallannahme. Ob eine Verletzung tatsächlich vorliegt, ist noch zu untersuchen. Der fehlende direkte Vertrag rechtfertigt somit kein Ignorieren."});
 window.ROOMS[5].sections.push({"title": "Anlage F2: Fahrradfall und Aufbau eines Urteils", "text": "Für den Transfer untersucht ihr einen fiktiven Hersteller individuell konfigurierter Fahrräder. Er entwickelt Rahmenformen und Software selbst, kauft aber Bremsen und Schaltungen von spezialisierten Lieferanten. Kundinnen wählen Farbe und Ausstattung im Onlineshop; die Montage benötigt Teile in passender Reihenfolge. Ein verspäteter Bremsenlieferant verhindert die Fertigstellung. Ein Hinweis auf ungesicherte Maschinen stammt von einem vorgelagerten Teilebetrieb. Ob der Hersteller rechtlich unter das LkSG fällt, ist hier nicht festgelegt; er kann Arbeitsbedingungen dennoch in seiner Lieferantenauswahl berücksichtigen. Nutzt diese Angaben für zwei übertragene Erkenntnisse, etwa Organisation der Informationsübergaben, Eigenfertigung versus Fremdbezug oder abgestimmte Beschaffung und Vorsorge. Ein Urteil besteht aus Empfehlung, Kriterium, Beleg und erklärter Wirkung. Nehmt einen Einwand ernst und nennt eine Bedingung für eine andere Entscheidung. Eine überprüfbare Tatsachenbehauptung braucht einen Beleg; eine normative Forderung beruht auf einer begründeten Wertung. Für eure persönliche Reflexion beschreibt ihr eure eigene frühere und jetzige Einschätzung."});
 
+// Die Filmakten sind freiwillige Vertiefungen. Rätsel und Türcodes benötigen keine externe Quelle.
+[
+  [1, 'B3', 'Wertschöpfungskette', 'https://studyflix.de/wirtschaft/wertschopfungskette-1792/video', 'Vergleicht die Stationen im Video mit dem Ablauf bei Heller & Söhne: Welche Wertschöpfung findet in der Fabrik statt und welche Schritte liegen bei anderen Unternehmen?'],
+  [2, 'C4', 'Make or Buy', 'https://studyflix.de/wirtschaft/make-or-buy-4718/video', 'Übertragt die Entscheidungskriterien aus dem Video auf die Pralinenhüllen. Welche Aussage liefert das Kostenblatt und welche Frage bleibt trotz Rechnung offen?'],
+  [3, 'D3', 'Just in Time', 'https://studyflix.de/wirtschaft/just-in-time-1629/video', 'Prüft am Kakaolager, unter welchen Bedingungen eine bedarfsgerechte Anlieferung funktionieren würde. Was ändert sich, wenn eine Lieferung verspätet eintrifft?']
+].forEach(([room, reference, title, url, question]) => {
+  window.ROOMS[room].sections.push({
+    title: `Filmakte ${reference}: ${title}`,
+    text: 'Freiwillige Vertiefung: Dieses externe Erklärvideo ergänzt die Ermittlungsakte. Für alle Aufgaben und Türcodes reichen die Texte und Anlagen dieser Website vollständig aus.',
+    exhibit: 'video',
+    video: { reference, title, url, question }
+  });
+});
+
 // Zwei verknüpfte Spuren pro Akte: Die Lösung verlangt Anwendung auf den Fall, nicht nur das Ablesen einer Kennziffer.
 const evidenceChecks = [
   {title:'Die Shop-Prognose',intro:'Die Geschäftsleitung prüft, ob die drei Ziele in eine konkrete Zusammenarbeit übersetzt werden.',reward:'Die Strategie ist mit einer überprüfbaren Informationsübergabe verbunden.',checks:[
