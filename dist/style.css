@@ -56,6 +56,7 @@
  .workspace{grid-template-columns:minmax(0,1fr);gap:32px}
  .workspace>.document,.workspace>.workbench{width:100%;max-width:860px;justify-self:center}
  .room-quicknav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:fixed;z-index:20;bottom:calc(12px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);width:min(860px,calc(100% - 32px));padding:6px;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+ .room-quicknav.has-evidence{grid-template-columns:repeat(5,minmax(0,1fr))}
  .room-quicknav button{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:8px;border:0;border-radius:4px;background:transparent;color:var(--ink);font-size:.9rem;touch-action:manipulation}
  .room-quicknav button:hover,.room-quicknav button:focus-visible{background:var(--elevated);color:var(--gold)}
  body:has(.room-quicknav) .site-footer{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
@@ -84,6 +85,20 @@
 .audio-evidence-heading strong{font-size:.88rem;line-height:1.4}
 .audio-evidence-heading div>span{font-size:.72rem;line-height:1.5;margin-top:4px}
 .audio-evidence audio{display:block;width:100%;min-height:54px;margin:20px 0 12px}
+/* Zwei fallbezogene Spuren geben vor dem Türcode sichtbare Teilerfolge. */
+.evidence-check{position:relative}
+.evidence-check>.panel-top{align-items:center}
+.evidence-check>p{font-size:.9rem;line-height:1.7}
+.evidence-check>p strong{color:var(--gold)}
+.evidence-check .answer-cards{margin:22px 0}
+.evidence-check .clue-field legend,.evidence-check .clue-field label{line-height:1.55}
+.evidence-check .clue-field[data-invalid=true]{outline:2px solid oklch(.76 .13 30);outline-offset:4px}
+.evidence-check .clue-field input[type=number]{font-size:18px}
+.evidence-stamp-result{display:inline-flex;align-items:center;min-height:44px;margin-top:14px;padding:8px 12px;border:1px dashed var(--muted);border-radius:2px;color:var(--muted);font:700 .75rem/1.4 ui-monospace,'Courier New',monospace;letter-spacing:.045em;transform:rotate(-2deg)}
+.evidence-stamp-result.secured{border:2px solid var(--green);color:var(--green);animation:stamp-in .3s ease-out}
+@keyframes stamp-in{from{opacity:.4;transform:rotate(-2deg) scale(1.08)}to{opacity:1;transform:rotate(-2deg) scale(1)}}
+@media(prefers-reduced-motion:reduce){.evidence-stamp-result.secured{animation:none}}
+.motion-off .evidence-stamp-result.secured{animation:none}
 .case-dossier .paragraph .audio-evidence-task{font-size:.78rem;line-height:1.6;margin:0 0 16px}
 .audio-transcript{border-top:1px solid currentColor;padding-top:8px}
 .audio-transcript summary{cursor:pointer;min-height:48px;display:flex;align-items:center;font-size:.8rem;font-weight:700;text-decoration:underline;text-underline-offset:4px}

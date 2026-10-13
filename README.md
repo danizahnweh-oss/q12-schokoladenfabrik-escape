@@ -7,8 +7,10 @@ Die Akten besitzen einen historischen Umschlag, Registerlaschen, Aktenzeichen, e
 Die KI-generierten Stimmen der Tonakte wurden mit der [ElevenLabs Text-to-Dialogue API](https://elevenlabs.io/docs/overview/capabilities/text-to-dialogue) und dem Modell Eleven v4 erzeugt. Die Website enthält nur die fertige MP3-Datei und benötigt für die Wiedergabe keinen externen Dienst oder API-Schlüssel.
 Tonakte C3 ist als vertrauliches Gespräch zweier Mitarbeitender nach einer Besprechung inszeniert. Die Zahlen und offenen Fragen bleiben mit den Textblättern der Akte überprüfbar.
 
+Jeder Raum enthält zusätzlich eine Spurenprüfung mit zwei miteinander verbundenen Fallfragen. Nach einer richtigen Spur erscheint ein Teilerfolg, nach beiden ein gesichertes Beweisstück. Die Prüfung verwendet Auswahlkarten und in den passenden Räumen eigene Recheneingaben; sie muss vor dem Türcode gelöst sein. Bestehende Türcodes und ältere abgeschlossene Spielstände bleiben gültig.
+
 ## Unterricht
-Planungsreferenz der Lehrkraft für den bisherigen Umfang: ungefähr 90 Minuten. Diese Einschätzung dient als Maßstab für kommende Aufgaben; die neue Tonakte mit Auswertung benötigt zusätzliche Bearbeitungszeit. Ausführliche Präsentationen oder Vertiefungen sind ebenfalls zusätzlich zu planen. Teamarbeit beim Erschließen und Rätseln, individuelle Ergebnissicherung im eigenen Browser. Kein Konto erforderlich. Einträge werden ausschließlich auf dem verwendeten Gerät und Browser gespeichert. Keine gemeinsame Cloud-Synchronisation. Backups erlauben einen Gerätewechsel.
+Planungsreferenz der Lehrkraft für den bisherigen Umfang: ungefähr 90 Minuten. Diese Einschätzung dient als Maßstab für kommende Aufgaben; Tonakte und sechs zusätzliche Spurenprüfungen benötigen zusätzliche Bearbeitungszeit. Ausführliche Präsentationen oder Vertiefungen sind ebenfalls zusätzlich zu planen. Teamarbeit beim Erschließen und Rätseln, individuelle Ergebnissicherung im eigenen Browser. Kein Konto erforderlich. Einträge werden ausschließlich auf dem verwendeten Gerät und Browser gespeichert. Keine gemeinsame Cloud-Synchronisation. Backups erlauben einen Gerätewechsel.
 
 ## Start
 `npm start`, anschließend http://localhost:4173 öffnen. Die Website funktioniert auch mit jedem statischen Webserver. GitHub Pages veröffentlicht den Ordner `dist`.

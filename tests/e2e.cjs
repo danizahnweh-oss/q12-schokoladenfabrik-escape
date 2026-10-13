@@ -58,6 +58,15 @@ function pass(name) { passed++; console.log(`✓ ${name}`); }
  for (let i=0;i<6;i++) {
    await page.waitForURL(`**/#raum/${i+1}`);
    for(let j=0;j<3;j++)await page.locator(`#note-${j}`).fill(analysis);
+   if(i===0){await page.locator('input[name="clue-0"][value="anzeige"]').check();await page.locator('input[name="clue-1"][value="konflikt"]').check();await page.getByRole('button',{name:'Spuren prüfen'}).click();assert.match(await page.locator('#clue-feedback').textContent(),/Eine von zwei Spuren/);}
+   for(let j=0;j<2;j++){
+     const check=content[i].evidenceCheck.checks[j];
+     if(check.type==='number')await page.locator(`#clue-answer-${j}`).fill(check.answer);
+     else await page.locator(`input[name="clue-${j}"][value="${check.answer}"]`).check();
+   }
+   await page.getByRole('button',{name:'Spuren prüfen'}).click();
+   assert.match(await page.locator('#clue-feedback').textContent(),/Beweisstück gesichert/);
+   assert.match(await page.locator('.evidence-stamp-result').textContent(),/GESICHERT/);
    if(i===0){await page.locator('[data-action=report][data-value=planung]').click();await page.locator('[data-action=assign][data-slot=0]').click();await page.getByRole('button',{name:'Lösungen prüfen'}).click();assert.match(await page.locator('#puzzle-feedback').textContent(),/Aufgabe 1/);}
    if(content[i].puzzleType==='matching'){
      for(let j=0;j<4;j++){await page.locator(`[data-action=report][data-value="${content[i].exercises[j].answer}"]`).click();await page.locator(`[data-action=assign][data-slot="${j}"]`).click();}
