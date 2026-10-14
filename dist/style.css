@@ -123,3 +123,22 @@
 .video-evidence-question strong{display:block;font-size:.77rem;text-transform:uppercase;letter-spacing:.05em}
 .case-dossier .paragraph .video-evidence-question p{font-size:.88rem;line-height:1.65;margin:8px 0 0}
 @media(max-width:520px){.video-evidence{padding:16px;margin:20px 0}.video-evidence-heading{gap:12px}.video-evidence-seal{width:44px;height:44px}.video-evidence-frame{max-height:180px}.video-evidence-link{display:flex;width:100%}}
+
+/* Einzelne Textstellen bleiben im Hefter sichtbar und auf Touch-Geräten bearbeitbar. */
+.case-text::selection,.case-text *::selection{background:oklch(.75 .13 82);color:oklch(.2 .02 65)}
+.case-text .word-highlight{background:oklch(.82 .135 89);color:oklch(.24 .03 65);border-radius:2px;padding:1px 0;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.word-mark-tools{display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;margin:8px 0 0}
+.word-mark-tools button{min-height:48px;padding:8px 12px;border:1px solid oklch(.43 .06 65);border-radius:4px;background:transparent;color:var(--reading-ink);font-size:.76rem;font-weight:700}
+.word-mark-tools button:hover{background:oklch(.87 .055 82)}
+.word-mark-tools span{font-size:.72rem;line-height:1.5;color:oklch(.39 .035 65)}
+.word-highlight-list{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:12px}
+.word-highlight-list:empty{display:none}
+.word-highlight-list>span{width:100%;font-size:.72rem;font-weight:700}
+.word-highlight-list button{min-height:44px;max-width:100%;padding:8px 12px;border:1px solid oklch(.55 .05 75);border-radius:4px;background:oklch(.88 .065 87);color:var(--reading-ink);font-size:.75rem;text-align:left;overflow-wrap:anywhere}
+.word-highlight-list button:hover{background:oklch(.82 .09 87)}
+.sound-preview{margin:8px 0 16px}
+.dark-reader .word-mark-tools button{border-color:oklch(.7 .04 83);color:var(--reading-ink)}
+.dark-reader .word-mark-tools button:hover{background:oklch(.4 .03 65)}
+.dark-reader .word-mark-tools span{color:oklch(.82 .025 83)}
+.dark-reader .word-highlight-list button{color:oklch(.24 .03 65)}
+@media(max-width:520px){.word-mark-tools{align-items:stretch;flex-direction:column}.word-mark-tools button{align-self:flex-start}}
