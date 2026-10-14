@@ -8,6 +8,8 @@ Der kurze Türklang ist standardmäßig eingeschaltet und kann in den Einstellun
 
 Die KI-generierten Stimmen der Tonakte wurden mit der [ElevenLabs Text-to-Dialogue API](https://elevenlabs.io/docs/overview/capabilities/text-to-dialogue) und dem Modell Eleven v4 erzeugt. Die Website enthält nur die fertige MP3-Datei und benötigt für die Wiedergabe keinen externen Dienst oder API-Schlüssel.
 Die Akten B, C und D enthalten zusätzlich freiwillige Filmakten zu Wertschöpfungskette, Make or Buy und Just in Time. Sie öffnen die Originalvideos bei Studyflix in einem neuen Tab und benötigen Internet. Die Pflichtaufgaben bleiben mit den eigenen Akten vollständig lösbar.
+Der Türklang verwendet die kurze Aufnahme [„Door Open“ von Universfield auf Pixabay](https://pixabay.com/sound-effects/household-door-open-114615/) gemäß [Pixabay Content License](https://pixabay.com/service/license-summary/). Sie ist in die Lernwebsite eingebunden und wird nur beim Öffnen einer Tür, beim Fabrikstart und in der Hörprobe abgespielt.
+
 Tonakte C3 ist als vertrauliches Gespräch zweier Mitarbeitender nach einer Besprechung inszeniert. Die Zahlen und offenen Fragen bleiben mit den Textblättern der Akte überprüfbar.
 
 Jeder Raum enthält zusätzlich eine Spurenprüfung mit zwei miteinander verbundenen Fallfragen. Nach einer richtigen Spur erscheint ein Teilerfolg, nach beiden ein gesichertes Beweisstück. Die Prüfung verwendet Auswahlkarten und in den passenden Räumen eigene Recheneingaben; sie muss vor dem Türcode gelöst sein. Bestehende Türcodes und ältere abgeschlossene Spielstände bleiben gültig.

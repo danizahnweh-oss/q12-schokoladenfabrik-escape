@@ -347,7 +347,6 @@
     feedback.textContent=good.every(Boolean)?`Beweisstück gesichert. ${rooms[current.room].evidenceCheck.reward}`:good.some(Boolean)?`Eine von zwei Spuren stimmt. Prüft Spur ${good.findIndex(ok=>!ok)+1} noch einmal anhand der Akte.`:'Noch keine Spur stimmt. Lest die Fallangaben und Anlagen noch einmal.';
     document.querySelector('.evidence-check .small-badge').textContent=`${good.filter(Boolean).length} / 2`;
     const stamp=document.querySelector('.evidence-stamp-result');stamp.classList.toggle('secured',good.every(Boolean));stamp.textContent=good.every(Boolean)?'✓ BEWEISSTÜCK GESICHERT':'BEWEISSTÜCK OFFEN';stamp.setAttribute('aria-label',good.every(Boolean)?'Beweisstück gesichert':'Beweisstück noch offen');
-    if(good.every(Boolean))sound();
   }
   function checkPuzzle() {
     const good = answersReady(current.room);
@@ -374,9 +373,21 @@
     if (!reduced) overlay.classList.add('show');
     setTimeout(()=>{overlay.classList.remove('show');if (i<5) navigate('room',i+1);else {navigate('finale');toast('Alle Türen geöffnet. Verbindet jetzt eure Erkenntnisse im Neustartplan.');}},reduced?100:950);
   }
-  function sound() {
+  let doorAudio;
+  function sound(reportError = false) {
     if (!state.settings.sound) return false;
-    try {const AudioContext = window.AudioContext || window.webkitAudioContext;if(!AudioContext)return false;const ctx = new AudioContext(), osc=ctx.createOscillator(), gain=ctx.createGain();osc.type='sine';osc.frequency.setValueAtTime(440,ctx.currentTime);osc.frequency.exponentialRampToValueAtTime(660,ctx.currentTime+.18);gain.gain.setValueAtTime(.0001,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.07,ctx.currentTime+.02);gain.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.35);osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+.4);if(ctx.state==='suspended')ctx.resume().catch(()=>{});osc.onended=()=>ctx.close();return true;}catch(e){return false;}
+    try {
+      if (!doorAudio) {
+        doorAudio = new Audio('assets/door-open.mp3');
+        doorAudio.preload = 'auto';
+        doorAudio.volume = .65;
+      }
+      doorAudio.pause();
+      if (doorAudio.readyState > 0) doorAudio.currentTime = 0;
+      const playback = doorAudio.play();
+      if (playback?.catch) playback.catch(() => { if (reportError) toast('Der Türklang konnte nicht abgespielt werden.'); });
+      return true;
+    } catch (error) { return false; }
   }
   function showModal(title, html) { document.querySelector('#modal-title').textContent=title;document.querySelector('#modal-body').innerHTML=html;if(!modal.open)modal.showModal(); }
   function renderNotebook() {
@@ -448,7 +459,7 @@
     'unmark-text':b=>{const i=current.room,j=Number(b.dataset.paragraph),start=Number(b.dataset.start),end=Number(b.dataset.end);state.rooms[i].highlights=state.rooms[i].highlights.filter(h=>h.paragraph!==j||h.start!==start||h.end!==end);renderTextHighlights(i,j);persist();toast('Textmarkierung entfernt.');},
     hint:()=>{const i=current.room,s=state.rooms[i];if(s.hints>=3){toast('Alle drei Hinweise stehen unter dem Rätsel.');return;}s.hints++;document.querySelector('#hints').innerHTML=rooms[i].hints.slice(0,s.hints).map((h,j)=>`<p class="hint-text"><strong>Hinweis ${j+1}</strong><br>${E(h)}</p>`).join('');document.querySelector('#hint-count').textContent=`${s.hints} / 3 Hilfen`;if(s.hints===3)document.querySelector('[data-action=hint]').innerHTML=`${icon('bulb')} Alle Hinweise geöffnet`;persist();toast(`Hinweis ${s.hints} ist geöffnet.`);},
     settings:()=>showModal('Einstellungen & Datensicherung',`<p>Passt die Website an eure Arbeitsweise an.</p>${[['motion','Animationen','Türen und kurze Übergänge. Die Geräteeinstellung für reduzierte Bewegung hat Vorrang.'],['sound','Kurzer Türklang','Standardmäßig eingeschaltet. Der Klang startet nach einer Berührung.'],['dark','Dunkle Lesefläche','Für weniger helle Aktenflächen.'],['large','Größere Textschrift','Vergrößert die Lerntexte.']].map(([k,label,desc])=>`<div class="setting-row"><label for="setting-${k}">${label}<small>${desc}</small></label><input id="setting-${k}" data-setting="${k}" type="checkbox" ${state.settings[k]?'checked':''}></div>`).join('')}<button class="button secondary sound-preview" data-action="test-sound">Türklang probehören</button><div class="setting-actions"><button class="button secondary" data-action="export-json">Backup sichern</button><button class="button secondary" data-action="import">Backup importieren</button><button class="button secondary danger-button" data-action="reset">Neustart vorbereiten</button></div><p style="margin-top:20px">Keine Konten, keine Cloud-Synchronisation. Browserdaten löschen entfernt die gespeicherten Einträge. Auf gemeinsam genutzten Geräten vor dem Wechsel exportieren und zurücksetzen.</p>`),
-    'test-sound':()=>{if(!state.settings.sound){toast('Aktiviere zuerst den Türklang.');return;}if(!sound())toast('Der Türklang ist in diesem Browser nicht verfügbar.');},
+    'test-sound':()=>{if(!state.settings.sound){toast('Aktiviere zuerst den Türklang.');return;}if(!sound(true))toast('Der Türklang ist in diesem Browser nicht verfügbar.');},
     'export-md':()=>download('Ermittlungsheft-Schokoladenfabrik.md',exportText(),'text/markdown;charset=utf-8'),
     'export-json':()=>{persist();download('Schokoladenfabrik-Backup.json',JSON.stringify(state,null,2),'application/json');},
     print:()=>{persist();window.print();},
